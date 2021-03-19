@@ -1,0 +1,48 @@
+{
+  "expo": {
+    "name": "Project",
+    "slug": "Project",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "facebookScheme":"fb338955613739410",
+    "facebookAppId":"338955613739410",
+    "facebookDisplayName":"Project",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.psu.project",
+      "buildNumber": "1.0.0",
+      "config": {
+        "googleMapsApiKey": "AIzaSyAgJXzrA3FlgeEvKSZqMYFHAvCqJfoUP7E"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF"
+      },
+      "googleServicesFile": "./assets/google-services.json",
+      "useNextNotificationsApi": true,
+      "package": "com.psu.project",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDn6uf-aSQ7WAF4YNADAhsuHmATg8hqKKA"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "184881702288",
+    "firebase_url": "https://ftynaja.firebaseio.com",
+    "project_id": "ftynaja",
+    "storage_bucket": "ftynaja.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184881702288:android:2ed8ebf8c852f2d6767f15",
+        "android_client_info": {
+          "package_name": "com.psu.project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "184881702288-qm4b51ua6s0dclo0s1elubttai5i1iv6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.psu.project",
+            "certificate_hash": "dd31a461d2ff893b276b7f2f282026c11675e920"
+          }
+        },
+        {
+          "client_id": "184881702288-03jefg41jd4c68tbdiuep7o1m6lih800.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2QDB9yKmnGb2U8KaTag2isEDrvbX3qiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "184881702288-03jefg41jd4c68tbdiuep7o1m6lih800.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "184881702288-dlc44lmovup2uk3hna9q65kmr64uitf2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.psu.FTYnaja"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

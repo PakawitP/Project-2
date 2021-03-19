@@ -1,0 +1,10 @@
+{
+    "background.customImages": [
+        "https://firebasestorage.googleapis.com/v0/b/my-project-b6a73.appspot.com/o/clipart2641839%20(1).png?alt=media&token=67f9d5c1-d198-4bd9-90bd-f88074e2de6e",
+    ],
+    "background.style": {
+        "background-position": "100% 100%",
+        "background-size": "20%",
+        "opacity": 0.4
+    }
+}
