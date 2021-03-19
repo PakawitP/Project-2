@@ -361,4 +361,3 @@ const styles = StyleSheet.create({
   },
 });
 
-///ทำต่อยากหน่อยนะ55555
