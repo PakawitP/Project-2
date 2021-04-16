@@ -124,9 +124,13 @@ const ItemView = (item, key) => {
             
         
           <Right>
-            <Text style={{fontSize:16}}>
-              {item.PCount}  <Fontisto name="person" size={24} color="#CA7004" />
-            </Text>
+            <View style ={{flexDirection:'row'}}>
+              <Text style={{marginRight : 5}} >
+                {item.PCount}  
+              </Text>
+              <Fontisto name="person" size={24} color="#CA7004" /> 
+            </View>
+
           </Right>
         </CardItem>
         <CardItem>

@@ -195,6 +195,18 @@ async function sendPushNotification(token) {
   });
 }
 
+const photocheck = () =>{
+  if(dataSource.announcePhoto.length > 0){
+    return(
+      <Swiper style={styles.swiper} height={250} auto>
+        {
+          dataSource.announcePhoto.map(ItemView)
+        }
+      </Swiper>
+    )
+  }
+}
+
 if(dataSource != null){
   return (
     <Container>
@@ -227,12 +239,13 @@ if(dataSource != null){
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-            <Swiper style={styles.swiper} height={250} auto>
+            {/* <Swiper style={styles.swiper} height={250} auto>
               {
-              //Loop of JS which is like foreach loop
+
                 dataSource.announcePhoto.map(ItemView)
               }
-            </Swiper>
+            </Swiper> */}
+            {  photocheck()}
           </View>
 
           <View>

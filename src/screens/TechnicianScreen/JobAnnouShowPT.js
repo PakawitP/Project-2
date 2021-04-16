@@ -113,11 +113,23 @@ const ItemView = (item, key) => {
 const Edit = () =>{
   docRefJ.set({
     explain : Dis
-}, { merge: true }).then(()=>{
-  Alert.alert(
-    "การดำเนินการ",
-    "บันทึกการแก้ไขเสร็จสิ้น",)
-})
+  }, { merge: true }).then(()=>{
+    Alert.alert(
+      "การดำเนินการ",
+      "บันทึกการแก้ไขเสร็จสิ้น",)
+  })
+}
+
+const photocheck = () =>{
+  if(dataSource.announcePhoto.length > 0){
+    return(
+      <Swiper style={styles.swiper} height={250} auto>
+        {
+          dataSource.announcePhoto.map(ItemView)
+        }
+      </Swiper>
+    )
+  }
 }
 
 
@@ -154,12 +166,7 @@ if(dataSource != null){
             <Text style={{fontSize:16,margin:10,alignSelf:'center'}}>
               รูปภาพงาน
             </Text>
-            <Swiper style={styles.swiper} height={250} auto>
-              {
-              //Loop of JS which is like foreach loop
-                dataSource.announcePhoto.map(ItemView)
-              }
-            </Swiper>
+            {  photocheck()}
           </View>
 
           <View>

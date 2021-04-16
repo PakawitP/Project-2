@@ -144,9 +144,14 @@ const ItemView = (item, key) => {
                 {item.WorkName}{"\n"}คะเเนนรวม {item.Totle}
               </Text>
             </Left>
+
+            <Body style={{marginTop:10}}>
+              <Text> อัพเดทเมื่อ {item.createdAt.toDate().toLocaleTimeString()} {item.createdAt.toDate().toLocaleDateString()}</Text>
+            </Body>
+
             <Right>
               {CheckComment(item.status)}
-              <Text >{item.createdAt.toDate().toLocaleTimeString()} {item.createdAt.toDate().toLocaleDateString()}</Text>
+              
             </Right>
           </CardItem>
         </Card>
@@ -181,21 +186,22 @@ if(dataSource.length > 0){
           </Button>
         </Right>
       </Header>
+      <View>
+        <SearchBar
+          searchIcon={{ size: 24 }}
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={(text) => searchFilterFunction('')}
+          placeholder="ค้นหารายชื่องาน"
+          lightTheme = {true}
+          // placeholderTextColor= "#CA7004"
+          value={search}
+        />
+      </View>
 
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-            <View>
-                <SearchBar
-                  searchIcon={{ size: 24 }}
-                  onChangeText={(text) => searchFilterFunction(text)}
-                  onClear={(text) => searchFilterFunction('')}
-                  placeholder="ค้นหารายชื่องาน"
-                  lightTheme = {true}
-                  // placeholderTextColor= "#CA7004"
-                  value={search}
-                />
-            </View>
+            
             {
             //Loop of JS which is like foreach loop
               dataSource.map(ItemView)

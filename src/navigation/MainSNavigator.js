@@ -64,7 +64,7 @@ import JobAnnouP from '../screens/TechnicianScreen/JobAnnouP'
 import JobAnnouShowPT from '../screens/TechnicianScreen/JobAnnouShowPT'
 
 
-
+import CListService from '../screens/Customer/ListService'
 import CListTechnicians from '../screens/Customer/ListTechnicians'
 import CHistoryShow from '../screens/Customer/HistoryShow'
 import CWorkPictureShow from '../screens/Customer/WorkPictureShow'
@@ -491,14 +491,33 @@ function Cercomment() {
 
 //////////////////////////Custommmer////////////////////////////
 
-function StackListT(){
-return(
-  <Stack.Navigator initialRouteName="ListTechnicians" headerMode = "none">
-    <Stack.Screen name="ListTechnicians" component={CListTechnicians} />
-    <Stack.Screen name="MyTabs" component={MyTabs} />
+function ListT(){
+  return(
+    <TabT.Navigator tabBarPosition='bottom' 
+      backBehavior='initialRoute'>
+      <Tab.Screen name="รายชื่อช่าง" component={StackListT}  />
+      <Tab.Screen name="งาน/บริการ" component={StackListService} />
+    </TabT.Navigator>
+  )
+}
 
-  </Stack.Navigator>
-)
+function StackListT(){
+  return(
+    <Stack.Navigator initialRouteName="ListTechnicians" headerMode = "none">
+      <Stack.Screen name="ListTechnicians" component={CListTechnicians} />
+      <Stack.Screen name="MyTabs" component={MyTabs} />
+    </Stack.Navigator>
+  )
+}
+
+function StackListService(){
+  return(
+    <Stack.Navigator initialRouteName="ListTechnicians" headerMode = "none">
+      <Stack.Screen name="ListTechnicians" component={CListService} />
+      <Stack.Screen name="MyTabs" component={MyTabs} />
+
+    </Stack.Navigator>
+  )
 }
 
 function CStackAnnouncement(){
@@ -559,15 +578,15 @@ return (
 
 
 function story(){
-return(
-  <TabT.Navigator tabBarPosition='bottom' 
-    initialRouteName="HistoryShow"
-    backBehavior='initialRoute'>
-    <Tab.Screen name="ประวัติส่วนตัว" component={CHistoryShow}  />
-    <Tab.Screen name="การศึกษา" component={CEducationShow} />
-    <Tab.Screen name="การทำงาน" component={CWorkShow} />
-  </TabT.Navigator>
-)
+  return(
+    <TabT.Navigator tabBarPosition='bottom' 
+      initialRouteName="HistoryShow"
+      backBehavior='initialRoute'>
+      <Tab.Screen name="ประวัติส่วนตัว" component={CHistoryShow}  />
+      <Tab.Screen name="การศึกษา" component={CEducationShow} />
+      <Tab.Screen name="การทำงาน" component={CWorkShow} />
+    </TabT.Navigator>
+  )
 }
 
 function commentS(){
@@ -592,9 +611,9 @@ return(
 function CustomerN(){
 return (
     <Drawer.Navigator  drawerContent={props => <SidebarC {...props}/>}
-    initialRouteName="StackListT" 
+    initialRouteName="ListT" 
     headerMode = "none">
-      <Drawer.Screen name="รายชื่อช่าง" component={StackListT} 
+      <Drawer.Screen name="ช่างเเละบริการ" component={ListT} 
       options={{
         drawerIcon: () => (
           <Entypo name="clipboard" size={24} color="#CA7004" />

@@ -108,7 +108,7 @@ export default function JobAnnou (props) {
 
   const uploadImage = async () => {
     if(image != null){
-      setC(true)
+     // setC(true)
       setLoading(true)
       var metadata = {
         contentType: 'image_Work',
@@ -180,20 +180,38 @@ export default function JobAnnou (props) {
   }
 
   const checks = () =>{
-    if( Explain != "" && Name != null &&  C != false && Location != null){
+    if( Explain != "" && Name != null  && Location != null){
       if(Motorcycle == true || Electrician == true || Electricity == true){
         SaveData();
         gettoken();
       }else{
         Alert.alert(
-          "การดำเนินการ",
+          "ข้อมูลไม่ครบถ้วน",
           "ระบุอาชีพ",)
       }
 
     }else{
-      Alert.alert(
-        "การดำเนินการ",
-        "ข้อมูลไม่ครบถ้วน",)
+      if(Explain == ""){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจเช็คคำอธิบายรายละเอียดงาน",)
+      }
+      else if(Name == null){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจเช็คชื่องาน",)
+      }
+      else if(Location == null){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจเช็คสถานที่ตั้งของงาน",)
+      }
+      else{
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจเช็คข้อมูล",)
+      }
+
     }
   }
 

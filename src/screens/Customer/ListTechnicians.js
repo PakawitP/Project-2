@@ -71,6 +71,7 @@ export default function ListTechnicians (props) {
         })
         setDataSource(cities)
         setDataSourceT(cities)
+        cities = []
     });
     setShow(1)
    
@@ -243,7 +244,7 @@ const ItemView = (item, key) => {
   
 };
 
-
+console.log(Glocation)
 if(Show == 1 && Glocation != null){
     return (
       <Container>
@@ -274,132 +275,133 @@ if(Show == 1 && Glocation != null){
           </View>
         </Header>
 
-
-        
-        <SafeAreaView style={{ flex: 1 }}>
-          <View style={styles.container}>
-            
-         
-            <View>
-              <SearchBar
-                searchIcon={{ size: 24 }}
-                onChangeText={(text) => searchFilterFunction(text)}
-                onClear={(text) => searchFilterFunction('')}
-                placeholder="ค้นหารายชื่อ"
-                lightTheme = {true}
-                // placeholderTextColor= "#CA7004"
-                value={search}
-              />
-           </View>
-            {/* List Item as a function */}
-            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        <View>
+          <SearchBar
+            searchIcon={{ size: 24 }}
+            onChangeText={(text) => searchFilterFunction(text)}
+            onClear={(text) => searchFilterFunction('')}
+            placeholder="ค้นหารายชื่อ"
+            lightTheme = {true}
+            // placeholderTextColor= "#CA7004"
+            value={search}
+          />
+        </View>
+        <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+          <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.container}>
               
-              {
-              //Loop of JS which is like foreach loop
-                dataSource.map(ItemView)
-              }
-
-
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                  setModalVisible(false);
-                }}>
-                <View style={styles.centeredView}>
-                  <View style={styles.modalView}>
-                    {/* <Text style={styles.modalText}>เรียงลำดับ</Text> */}
-
           
-                    {/* <Text style={styles.modalText}>ประเภทช่าง</Text> */}
+              
+              {/* List Item as a function */}
+              
+                
+                {
+                //Loop of JS which is like foreach loop
+                  dataSource.map(ItemView)
+                }
 
-                    <View style = {{marginLeft:15,marginBottom:20}}>
-                      <View style={styles.checkboxInput}>
-                        <CheckBox
-                          value={Motorcycle}
-                          onChange={()=>{
-                                          setElectricity(false)
-                                          setElectrician(false)
-                                          setMotorcycle(!Motorcycle)
-                                          setTotleT(false)}}
-                          style={styles.checkbox}
-                        />
-                        <Text style={styles.label}>ช่างซ่อมรถจักรยานยนต์</Text>
+
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalVisible}
+                  onRequestClose={() => {
+                    setModalVisible(false);
+                  }}>
+                  <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                      {/* <Text style={styles.modalText}>เรียงลำดับ</Text> */}
+
+            
+                      {/* <Text style={styles.modalText}>ประเภทช่าง</Text> */}
+
+                      <View style = {{marginLeft:15,marginBottom:20}}>
+                        <View style={styles.checkboxInput}>
+                          <CheckBox
+                            value={Motorcycle}
+                            onChange={()=>{
+                                            setElectricity(false)
+                                            setElectrician(false)
+                                            setMotorcycle(!Motorcycle)
+                                            setTotleT(false)}}
+                            style={styles.checkbox}
+                          />
+                          <Text style={styles.label}>ช่างซ่อมรถจักรยานยนต์</Text>
+                        </View>
+                        <View style={styles.checkboxInput}>
+                          <CheckBox
+                            value={Electrician}
+                            onChange={()=>{
+                                            setElectricity(false)
+                                            setElectrician(!Electrician)
+                                            setMotorcycle(false)
+                                            setTotleT(false)}}
+                            style={styles.checkbox}
+                          />
+                          <Text style={styles.label}>ช่างซ่อมเครื่องใช้ไฟฟ้า</Text>
+                        </View>
+                        <View style={styles.checkboxInput}>
+                          <CheckBox
+                            value={Electricity}
+                            onChange={()=>{
+                                            setElectricity(!Electricity)
+                                            setElectrician(false)
+                                            setMotorcycle(false)
+                                            setTotleT(false)}}
+                            style={styles.checkbox}
+                          />
+                          <Text style={styles.label}>ช่างซ่อมไฟฟ้า</Text>
+                        </View>
+                        <View style={styles.checkboxInput}>
+                          <CheckBox
+                            value={TotleT}
+                            // onValueChange={setTotleT}
+                            onChange={()=>{
+                                            setElectricity(false)
+                                            setElectrician(false)
+                                            setMotorcycle(false)
+                                            setTotleT(!TotleT)}}
+                            style={styles.checkbox}
+                          />
+                          <Text style={styles.label}>ช่างทั้งหมด</Text>
+                        </View>
                       </View>
-                      <View style={styles.checkboxInput}>
-                        <CheckBox
-                          value={Electrician}
-                          onChange={()=>{
-                                          setElectricity(false)
-                                          setElectrician(!Electrician)
-                                          setMotorcycle(false)
-                                          setTotleT(false)}}
-                          style={styles.checkbox}
-                        />
-                        <Text style={styles.label}>ช่างซ่อมเครื่องใช้ไฟฟ้า</Text>
-                      </View>
-                      <View style={styles.checkboxInput}>
-                        <CheckBox
-                          value={Electricity}
-                          onChange={()=>{
-                                          setElectricity(!Electricity)
-                                          setElectrician(false)
-                                          setMotorcycle(false)
-                                          setTotleT(false)}}
-                          style={styles.checkbox}
-                        />
-                        <Text style={styles.label}>ช่างซ่อมไฟฟ้า</Text>
-                      </View>
-                      <View style={styles.checkboxInput}>
-                        <CheckBox
-                          value={TotleT}
-                          // onValueChange={setTotleT}
-                          onChange={()=>{
-                                          setElectricity(false)
-                                          setElectrician(false)
-                                          setMotorcycle(false)
-                                          setTotleT(!TotleT)}}
-                          style={styles.checkbox}
-                        />
-                        <Text style={styles.label}>ช่างทั้งหมด</Text>
-                      </View>
+
+                      <TouchableHighlight
+                        style={{ ...styles.openButton, }}
+                        onPress={() => {
+                          SortPoint(dataSourceT);
+                        }}>
+                        <Text style={styles.textStyle}>เรียงจากคะเเนน</Text>
+                      </TouchableHighlight>
+
+                      <TouchableHighlight
+                        style={{ ...styles.openButton,}}
+                        onPress={() => {
+                          SortDistance(dataSourceT);
+                        }}>
+                        <Text style={styles.textStyle}>เรียงจากตำแหน่ง</Text>
+                      </TouchableHighlight>
+
+                      <TouchableHighlight
+                        style={{ ...styles.openButton, marginTop:30 }}
+                        onPress={() => {
+                          SortOcc()
+                          setModalVisible(false);
+                        }}>
+                        <Text style={styles.textStyle}>ตกลง</Text>
+                      </TouchableHighlight>
                     </View>
-
-                    <TouchableHighlight
-                      style={{ ...styles.openButton, }}
-                      onPress={() => {
-                        SortPoint(dataSourceT);
-                      }}>
-                      <Text style={styles.textStyle}>เรียงจากคะเเนน</Text>
-                    </TouchableHighlight>
-
-                    <TouchableHighlight
-                      style={{ ...styles.openButton,}}
-                      onPress={() => {
-                        SortDistance(dataSourceT);
-                      }}>
-                      <Text style={styles.textStyle}>เรียงจากตำแหน่ง</Text>
-                    </TouchableHighlight>
-
-                    <TouchableHighlight
-                      style={{ ...styles.openButton, marginTop:30 }}
-                      onPress={() => {
-                        SortOcc()
-                        setModalVisible(false);
-                      }}>
-                      <Text style={styles.textStyle}>ตกลง</Text>
-                    </TouchableHighlight>
                   </View>
-                </View>
-              </Modal>
+                </Modal>
 
 
 
 
-              </ScrollView>
-          </View>
-        </SafeAreaView>
+                
+            </View>
+          </SafeAreaView>
+        </ScrollView>
       </Container>
       
     );
@@ -434,22 +436,23 @@ if(Show == 1 && Glocation != null){
       </Header>
 
 
+      <View>
+        <SearchBar
+          searchIcon={{ size: 24 }}
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={(text) => searchFilterFunction('')}
+          placeholder="ค้นหารายชื่อ"
+          lightTheme = {true}
+          // placeholderTextColor= "#CA7004"
+          value={search}
+        />
+      </View>
       
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           
        
-          <View>
-            <SearchBar
-              searchIcon={{ size: 24 }}
-              onChangeText={(text) => searchFilterFunction(text)}
-              onClear={(text) => searchFilterFunction('')}
-              placeholder="ค้นหารายชื่อ"
-              lightTheme = {true}
-              // placeholderTextColor= "#CA7004"
-              value={search}
-            />
-         </View>
+          
           {/* List Item as a function */}
           <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             
@@ -552,7 +555,7 @@ if(Show == 1 && Glocation != null){
 
 
 
-
+           
             </ScrollView>
         </View>
       </SafeAreaView>
