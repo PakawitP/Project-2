@@ -62,13 +62,7 @@ export default function StatusWork (props) {
     });
   }
 
-  const Time = (time) =>{
-    if(time != null){
-      return(time.toDate().toLocaleTimeString() +" "+ time.toDate().toLocaleDateString())
-    }else{
-      return ("อัพเดทเวลา")
-    }
-  }
+ 
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -133,15 +127,11 @@ export default function StatusWork (props) {
               <Left>
                 <Text style={styles.itemStyle}>
                   ชื่องาน {item.WorkName}{"\n"}
-                  {Time(item.createdAt)}
+                  
                 </Text>
               </Left>
               <Right>
                 <AntDesign name="exclamationcircle" size={24} color="#CA7004" />
-                <Text>
-                  {item.stus}
-                </Text>
-                
               </Right>
             </CardItem>
           </Card>
@@ -158,14 +148,14 @@ export default function StatusWork (props) {
               <Left>
                 <Text style={styles.itemStyle}>
                   ชื่องาน {item.WorkName}{"\n"}
-                  {Time(item.createdAt)}
+                  
                 </Text>
               </Left>
               <Right>
                 <Entypo name="briefcase" size={24} color="#CA7004" />
-                <Text>
+                {/* <Text>
                   รอช่างยืนยัน{"\n"}
-                </Text>
+                </Text> */}
                 
               </Right>
             </CardItem>
@@ -183,14 +173,11 @@ export default function StatusWork (props) {
               <Left>
                 <Text style={styles.itemStyle}>
                   ชื่องาน {item.WorkName}{"\n"}
-                  {Time(item.createdAt)}
+                  
                 </Text>
               </Left>
               <Right>
                 <AntDesign name="tool" size={24} color="#CA7004" />
-                <Text>
-                  {item.stus}
-                </Text>
               </Right>
             </CardItem>
           </Card>

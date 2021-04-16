@@ -25,7 +25,7 @@ export default function JobAnnouShowT (props) {
   const {route} = props
   const { navigation } = props
   const { KeyJ,KeyAnnou ,Name} = route.params;
-  //const increment = firebase.firestore.FieldValue.increment(1);
+
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisibleR, setModalVisibleR] = useState(false);
@@ -33,15 +33,17 @@ export default function JobAnnouShowT (props) {
   const [modalVisibleCD, setModalVisibleCD] = useState(false);
   const [dataSource, setDataSource] = useState(null);
   const [dataSourceJ, setDataSourceJ] = useState(null);
-  // const [Point, setPoint] = useState(null);
-  // var cities = [];
+  const [dataSourceV, setDataSourceV] = useState([]);
+
   var docRefJ = firebase.firestore().collection("JobStatus").doc(KeyJ)
   var docRef = firebase.firestore().collection("announce").doc(KeyAnnou)
   var docRefC = firebase.firestore().collection("Comment")
   var docRefU = firebase.firestore().collection("users")
+  var docReprog = firebase.firestore().collection("JobStatus").doc(KeyJ).collection("progress")
 
   useEffect(() => {
     getData();
+    getProgress();
   }, [dataSource != null]);
 
   const getData = () =>{
@@ -78,11 +80,29 @@ export default function JobAnnouShowT (props) {
   
   }
 
+  const getProgress = () =>{
+    var dat = []
+    docReprog.orderBy("persen").get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            dat.push(doc.data());
+        });
+        setDataSourceV(dat)
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+
+
+  }
+
 
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     getData();
+    getProgress();
     wait(300).then(() => setRefreshing(false));
   }, []);
 
@@ -161,7 +181,7 @@ const cancle = () =>{
   gettoken(c)
   docRefJ.set({
     Custommerpetition: "cancle",
-    stus:"ขอยกเลิกงาน",
+   // stus:"ขอยกเลิกงาน",
   }, { merge: true }).then(() => {
     Alert.alert(
       "การดำเนินการ",
@@ -210,7 +230,7 @@ const Rcancle = (R) =>{
     docRefJ.set({
       Techicianpetition: null,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      stus:"การขอยกเลิกถูกปฎิเสธ",
+     // stus:"การขอยกเลิกถูกปฎิเสธ",
     }, { merge: true })
     // .then(()=>{
     //   navigation.navigate('StatusWork')
@@ -258,7 +278,7 @@ const Rcompleted = (R) =>{
     docRefJ.set({
       Techicianpetition: null,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      stus:"การขอเสร็จสิ้นถูกปฎิเสธ",
+     // stus:"การขอเสร็จสิ้นถูกปฎิเสธ",
     }, { merge: true })
     // .then(()=>{
     //   navigation.navigate('StatusWork')
@@ -267,22 +287,22 @@ const Rcompleted = (R) =>{
   setLoading(false)
 }
 
-const Stus = ()=>{
-  if(dataSourceJ.status == "รอช่างยืนยัน"){
-    return (
-      <Text>
-        รอช่างยืนยันการทำงาน
-      </Text>
-    )
-  }
-  if(dataSourceJ.status == "กำลังดำเนินการ"){
-    return (
-      <Text>
-        {dataSourceJ.stus}
-      </Text>
-    )
-  }
-}
+// const Stus = ()=>{
+//   if(dataSourceJ.status == "รอช่างยืนยัน"){
+//     return (
+//       <Text>
+//         รอช่างยืนยันการทำงาน
+//       </Text>
+//     )
+//   }
+//   if(dataSourceJ.status == "กำลังดำเนินการ"){
+//     return (
+//       <Text>
+//         {dataSourceJ.stus}
+//       </Text>
+//     )
+//   }
+// }
 
 const ButtonG = () =>{
   if(dataSourceJ.status =="รอช่างยืนยัน"){
@@ -302,6 +322,50 @@ const ButtonG = () =>{
     )
   }
   
+}
+
+const ItemView = (item, key) => {
+  return (
+    <TouchableHighlight View key={key} style ={{margin:5}} onLongPress = {() => {setPoint(item.key);setModalVisibleG(true)}}>
+      <View>
+        <Text style={{...styles.itemStyle,marginLeft:20}}>
+          เวลา {item.createdAt.toDate().toLocaleTimeString()} วันที่ {item.createdAt.toDate().toLocaleDateString()}
+        </Text>
+        <Text style={{...styles.itemStyle,marginLeft:20}}>
+          ความคืบหน้าของงาน {item.persen} %
+        </Text>
+        
+        <Text style={{...styles.itemStyle,marginLeft:20}}>
+          รายละเอียด/อธิบาย {item.progress} 
+        </Text>
+        {ItemSeparatorView()}
+      </View>
+    </TouchableHighlight>
+  
+  );
+};
+
+const ItemSeparatorView = () => {
+  return (
+    // Flat List Item Separator
+    <View style={styles.itemSeparatorStyle} />
+  );
+};
+
+const countarray = () =>{
+  if(dataSourceV.length > 0)
+    return(
+      <View>
+        <Card> 
+          <View style = {{alignItems:'center',margin:10}}>
+            <Text style={{fontSize:16}}>
+              ความคืบหน้าของงาน
+            </Text>
+          </View>
+            {dataSourceV.map(ItemView)}
+        </Card>
+      </View>
+    )
 }
 
 
@@ -339,7 +403,7 @@ if(dataSource != null && dataSourceJ != null){
             <Card>
               <Body style={{flexDirection:'row',marginTop:10}}>
                 <AntDesign name="creditcard" size={24} color="#CA7004" />
-                <Text >
+                <Text style={{fontSize:16}}>
                   {"\t"}รายละเอียดงาน
                 </Text>
               </Body>
@@ -350,23 +414,25 @@ if(dataSource != null && dataSourceJ != null){
               </CardItem>
               <CardItem>
                 <Text>
-                  อธิบายงาน {dataSource.announceExplain}
+                  อธิบายงาน/รายละเอียดงาน {dataSource.announceExplain}
                 </Text>
               </CardItem>
               <CardItem>
-                <Text>
+                {/* <Text>
                   สถานะงานปัจจุบัน {dataSourceJ.status}{"\n"}ความคืบหน้า {Stus()}
-                </Text>
+                </Text> */}
               </CardItem>
-              <CardItem>
+              {/* <CardItem>
                 <Text>
                   เปลี่ยนแปลงเมื่อ {dataSourceJ.createdAt.toDate().toLocaleTimeString()} {dataSourceJ.createdAt.toDate().toLocaleDateString()}
                 </Text>
-              </CardItem>
+              </CardItem> */}
             </Card>
           </View>
 
           {/* <View style={{flex:1}}> */}
+
+          {countarray()}
           {ButtonG()}
           
           {/* </View> */}

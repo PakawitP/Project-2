@@ -101,7 +101,7 @@ export default function StatusWork (props) {
 
   const FilterR= (CC) =>{//คำร้องขอ
     let result = CC.filter((CC) => {
-      return (CC.stus ==  "ขอสำเร็จงาน" || CC.stus ==  "ขอยกเลิกงาน")
+      return (CC.Techicianpetition != CC.Custommerpetition)
     })
     setDataSource(result)
   }
@@ -136,9 +136,7 @@ const ItemView = (item, key) => {
             </Left>
             <Right>
               <AntDesign name="exclamationcircle" size={24} color="#3F51B5" />
-              <Text>
-                {item.stus}
-              </Text>
+
               
             </Right>
           </CardItem>
@@ -160,9 +158,9 @@ const ItemView = (item, key) => {
             </Left>
             <Right>
               <Entypo name="briefcase" size={24} color="#3F51B5" />
-              <Text>
+              {/* <Text>
                 รอช่างยืนยัน{"\n"}
-              </Text>
+              </Text> */}
               
             </Right>
           </CardItem>
@@ -184,9 +182,6 @@ const ItemView = (item, key) => {
             </Left>
             <Right>
               <AntDesign name="tool" size={24} color="#3F51B5" />
-              <Text>
-                {item.stus}
-              </Text>
             </Right>
           </CardItem>
         </Card>

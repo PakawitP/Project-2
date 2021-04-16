@@ -143,7 +143,7 @@ export default function JobAnnou (props) {
       status : "กำลังดำเนินการ",
       NameCustommer : DataU,
       ConfirmKey : null ,
-      createdAt : firebase.firestore.FieldValue.serverTimestamp(),
+      //createdAt : firebase.firestore.FieldValue.serverTimestamp(),
     }, { merge: true })
     .then(()=>{
       docRef.delete().then(()=>{

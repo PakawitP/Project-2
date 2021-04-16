@@ -1,6 +1,6 @@
 import React,{ useState, useEffect,useCallback } from 'react';
 import { SafeAreaView,Alert,StyleSheet, Text, View , Modal,ScrollView,RefreshControl,TouchableHighlight } from 'react-native';
-import {Container,Left, Body,Right,Card,CardItem, Title, Header , Subtitle, Button,Icon,Label,Textarea,Content} from 'native-base' 
+import {Container,Left, Body,Right,Card,CardItem, Title, Header , Subtitle, Button,Icon,Label,Textarea,Content,Picker} from 'native-base' 
 import { AntDesign } from '@expo/vector-icons'; 
 import Spinner from 'react-native-loading-spinner-overlay';
 import {Keyaut} from '../Keyaut'
@@ -27,25 +27,51 @@ export default function JobAnnouShowT (props) {
   const { navigation } = props
   const { KeyJ,KeyAnnou ,Name} = route.params;
   let Key = KeyRef.key
+
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisibleR, setModalVisibleR] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleCD, setModalVisibleCD] = useState(false);
   const [modalVisibleW, setModalVisibleW] = useState(false);
+  const [modalVisibleG, setModalVisibleG] = useState(false);
   const [modalVisibleWC, setModalVisibleWC] = useState(false);
   const [modalVisibleCon, setModalVisibleCon] = useState(false);
   const [dataSource, setDataSource] = useState(null);
   const [Contact, setContact] = useState("");
+  const [V,setV] = useState(undefined)
+  const [show,setshow] = useState(false) 
   const [loading, setLoading] = useState(false);
   const [dataSourceJ, setDataSourceJ] = useState(null);
+  const [dataSourceV, setDataSourceV] = useState(null);
+  const [Point, setPoint] = useState(null);
+
   var docRefJ = firebase.firestore().collection("JobStatus").doc(KeyJ)
+  var docReprog = firebase.firestore().collection("JobStatus").doc(KeyJ).collection("progress")
   var docRef = firebase.firestore().collection("announce").doc(KeyAnnou)
   var docRefC = firebase.firestore().collection("Comment")
   var docRefU = firebase.firestore().collection("users")
 
   useEffect(() => {
     getData();
-  }, [dataSource != null]);
+    getProgress();
+  }, []);
+
+  const getProgress = () =>{
+    var dat = []
+    docReprog.orderBy("persen").get()
+    .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            // doc.data() is never undefined for query doc snapshots
+            dat.push(doc.data());
+        });
+        setDataSourceV(dat)
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+
+
+  }
 
   const getData = () =>{
     docRefJ.get().then(function(doc) {
@@ -59,11 +85,7 @@ export default function JobAnnouShowT (props) {
           // doc.data() will be undefined in this case
           console.log("No such document!");
       }
-    }).then(()=>{
-      if(dataSourceJ != null)
-        setContact(dataSourceJ.stus)
-      
-    });
+    })
 
     docRef.get().then(function(doc) {
       if (doc.exists) {
@@ -88,6 +110,7 @@ export default function JobAnnouShowT (props) {
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     getData();
+    getProgress();
     wait(300).then(() => setRefreshing(false));
   }, []);
 
@@ -160,12 +183,23 @@ async function sendPushNotificationT(token,r) {
 
 /////////////////////////////////////////////////////
 
+// const saveprogrees = (t) =>{
+//   const uid = docReprog.doc().id
+//   docReprog.doc(uid).set({
+//     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+//     progress:Contact,
+//     persen:V,
+//     key:uid
+
+//   }, { merge: true })
+// }
+
 const cancle = () =>{
   let c = 'ถูกขอยกเลิกงาน'
   gettoken(c)
   docRefJ.set({
     Techicianpetition: "cancle",
-    stus:"ขอยกเลิกงาน",
+    //stus:"ขอยกเลิกงาน",
   }, { merge: true }).then(() => {
     Alert.alert(
       "การดำเนินการ",
@@ -181,7 +215,7 @@ const completed = () =>{
   gettoken(c)
   docRefJ.set({
     Techicianpetition: "completed",
-    stus:"ขอสำเร็จงาน",
+    //stus:"ขอสำเร็จงาน",
   }, { merge: true }).then(() => {
     Alert.alert(
       "การดำเนินการ",
@@ -214,7 +248,7 @@ const Rcancle = (R) =>{
       Totle:0,
       status:false,
       Key: uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      //createdAt: firebase.firestore.FieldValue.serverTimestamp()
       },{ merge: true }) 
       .then(()=>{
         setLoading(false)
@@ -227,8 +261,8 @@ const Rcancle = (R) =>{
     gettoken(y)
     docRefJ.set({
       Custommerpetition: null,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      stus:"การขอยกเลิกถูกปฎิเสธ",
+      //createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      //stus:"การขอยกเลิกถูกปฎิเสธ",
     }, { merge: true })
     setLoading(false)
   }
@@ -241,8 +275,8 @@ const Getjob = () =>{
     status: "กำลังดำเนินการ",
     TechicianKey:Key,
     ConfirmKey:Key,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    stus:"เริ่มทำงาน"
+    //createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    //stus:"เริ่มทำงาน"
   }, { merge: true }).then(()=>{
     docRef.set({
       announceStatus: true,
@@ -265,32 +299,71 @@ const Canclejob = () =>{
 }
 
 const kaw =() =>{
-  if(dataSourceJ.status != "รอช่างยืนยัน"){
+  if(dataSourceJ.status != "รอช่างยืนยัน" && show){
     return(
+      
       <CardItem>
-      <Content padder>
-        <Label style={{fontSize:14}}>บันทึกความคืบหน้า</Label>
-          <Textarea  rowSpan={4} bordered 
-          value = {Contact}
-          onChangeText={(g)=>setContact(g)}/>
-      </Content>
-    </CardItem>
+        <Content padder>
+          <Label style={{fontSize:14}}>บันทึกความคืบหน้า</Label>
+            <Textarea  rowSpan={4} bordered 
+            value = {Contact}
+            onChangeText={(g)=>setContact(g)}/>
+        </Content>
+      </CardItem>
+
+    
+    );
+  }
+}
+
+const Spro =() =>{
+  if(dataSourceJ.status != "รอช่างยืนยัน" && show ){
+    return(
+      
+      <CardItem>
+        <Picker
+              mode="dropdown"
+              iosIcon={<Icon name="arrow-down" />}
+              placeholder="ความคืบหน้าของงาน"
+              placeholderStyle={{ color: "#bfc6ea" }}
+              placeholderIconColor="#007aff"
+              style={{ width: undefined }}
+              selectedValue={V}
+              onValueChange={(f)=>setV(f)}
+            >
+              <Picker.Item label="ความคืบหน้า 10 %" value="10" />
+              <Picker.Item label="ความคืบหน้า 20 %" value="20" />
+              <Picker.Item label="ความคืบหน้า 30 %" value="30" />
+              <Picker.Item label="ความคืบหน้า 40 %" value="40" />
+              <Picker.Item label="ความคืบหน้า 50 %" value="50" />
+              <Picker.Item label="ความคืบหน้า 60 %" value="60" />
+              <Picker.Item label="ความคืบหน้า 70 %" value="70" />
+              <Picker.Item label="ความคืบหน้า 80 %" value="80" />
+              <Picker.Item label="ความคืบหน้า 90 %" value="90" />
+              <Picker.Item label="ความคืบหน้า 100 %" value="100" />
+            </Picker>
+      </CardItem>
     
     );
   }
 }
 
 const Savekaw = () =>{
-  if(dataSourceJ.status != "รอช่างยืนยัน"){
+  if(dataSourceJ.status != "รอช่างยืนยัน" && show){
     return(
-      <CardItem>
+      <View style = {{alignItems:'center'}}>
         <TouchableHighlight
           style={styles.openButtonT}
           onPress={() => {
-            docRefJ.set({
+            const uid = docReprog.doc().id
+            docReprog.doc(uid).set({
               createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-              stus:Contact
+              progress:Contact,
+              persen:V,
+              key:uid
+
             }, { merge: true }).then(()=>{
+              getProgress()
               Alert.alert(
                 "การดำเนินการ",
                 "บันทึกความคืบหน้าเสร็จสิ้น",)
@@ -298,26 +371,28 @@ const Savekaw = () =>{
           }}>
           <Text style={styles.textStyle}>บันทึกความคืบหน้า</Text>
         </TouchableHighlight>
-      </CardItem>
+      </View>
     );
   }
 }
 
 const ButtonS = () =>{
-  if(dataSourceJ.status != "รอช่างยืนยัน"){
-    return(
-      <View style = {{alignItems:'center', marginTop:20}}>
-        <TouchableHighlight
-          style={styles.openButton}
-          onPress={() => {
-            setModalVisible(true)
-            
-          }}>
-          <Text style={styles.textStyle}>งานเสร็จสิ้น</Text>
-        </TouchableHighlight>
-      </View>
-      
-    )
+  if(dataSourceJ.status != "รอช่างยืนยัน" ){
+    if(show){
+      return(
+        <View style = {{alignItems:'center', marginTop:20}}>
+          <TouchableHighlight
+            style={styles.openButton}
+            onPress={() => {
+              setModalVisible(true)
+              
+            }}>
+            <Text style={styles.textStyle}>งานเสร็จสิ้น</Text>
+          </TouchableHighlight>
+        </View>
+        
+      )
+    }
   }else{
     return(
       <View style = {{alignItems:'center', marginTop:20}}>
@@ -335,19 +410,21 @@ const ButtonS = () =>{
 
 const ButtonSS = () =>{
   if(dataSourceJ.status != "รอช่างยืนยัน"){
-    return(
-      <View style = {{alignItems:'center',marginTop:15}}>
-        <TouchableHighlight
-          style={styles.openButton}
-          onPress={() => {
-            setModalVisibleCD(true)
-            
-          }}
-          >
-          <Text style={styles.textStyle}>ยกเลิกงาน</Text>
-        </TouchableHighlight>
-      </View>
-    )
+    if(show){
+      return(
+        <View style = {{alignItems:'center',marginTop:15}}>
+          <TouchableHighlight
+            style={styles.openButton}
+            onPress={() => {
+              setModalVisibleCD(true)
+              
+            }}
+            >
+            <Text style={styles.textStyle}>ยกเลิกงาน</Text>
+          </TouchableHighlight>
+        </View>
+      )
+    }
   }else{
     return(
       <View style = {{alignItems:'center', marginTop:20}}>
@@ -363,27 +440,52 @@ const ButtonSS = () =>{
   }
 }
 
-const Stus = ()=>{
-  if(dataSourceJ.status == "รอช่างยืนยัน"){
-    return (
-      <Text>
-        รอช่างยืนยันการทำงาน
-      </Text>
-    )
-  }
-  if(dataSourceJ.status == "กำลังดำเนินการ"){
-    return (
-      <Text>
-        {dataSourceJ.stus}
-      </Text>
-    )
-  }
+
+
+const getDel = () =>{
+  docReprog.doc(Point).delete().then(function() {
+    getProgress()
+    Alert.alert(
+      "การดำเนินการ",
+      "ลบเสร็จสิ้น",)
+  }).catch(function(error) {
+      console.error("Error removing document: ", error);
+  });
 }
 
 
+const ItemView = (item, key) => {
+  return (
+    <TouchableHighlight View key={key} style ={{margin:5}} onLongPress = {() => {setPoint(item.key);setModalVisibleG(true)}}>
+      <View>
+        <Text style={{...styles.itemStyle,marginLeft:20}}>
+          เวลา {item.createdAt.toDate().toLocaleTimeString()} วันที่ {item.createdAt.toDate().toLocaleDateString()}
+        </Text>
+        <Text style={{...styles.itemStyle,marginLeft:20}}>
+          ความคืบหน้าของงาน {item.persen} %
+        </Text>
+        
+        <Text style={{...styles.itemStyle,marginLeft:20}}>
+          รายละเอียด/อธิบาย {item.progress} 
+        </Text>
+        {ItemSeparatorView()}
+      </View>
+    </TouchableHighlight>
+  
+  );
+};
 
 
-if(dataSource != null && dataSourceJ != null){
+
+
+const ItemSeparatorView = () => {
+  return (
+    // Flat List Item Separator
+    <View style={styles.itemSeparatorStyle} />
+  );
+};
+
+if(dataSource != null && dataSourceJ != null && dataSourceV != null){
   return (
     <Container>
       <Header>
@@ -414,6 +516,12 @@ if(dataSource != null && dataSourceJ != null){
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
             <Card>
+              <View style = {{alignItems:'center',margin:10}}>
+                
+                <Text style={{fontSize:16}}>
+                  <AntDesign name="creditcard" size={24} color="#3F51B5" /> รายละเอียดงาน
+                </Text>
+              </View>
               <CardItem>
                 <Text>
                   ชื่องาน {dataSource.announceName}
@@ -429,61 +537,79 @@ if(dataSource != null && dataSourceJ != null){
                   ชื่อผู้จ้างงาน {dataSourceJ.NameCustommer}
                 </Text>
               </CardItem>
-              <CardItem>
-                <Text>
-                สถานะงานปัจจุบัน {dataSourceJ.status}{"\n"}ความคืบหน้า {Stus()}
+              
+            </Card> 
+            <Card> 
+              <View style = {{alignItems:'center',margin:10}}>
+                <Text style={{fontSize:16}}>
+                  ความคืบหน้าของงาน
                 </Text>
+              </View>
                 
-              </CardItem>
-              <CardItem>
-                <Text>
-                  เปลี่ยนแปลงเมื่อ {dataSourceJ.createdAt.toDate().toLocaleTimeString()} {dataSourceJ.createdAt.toDate().toLocaleDateString()}
-                </Text>
-              </CardItem>
-              {/* <CardItem>
-                <Content padder>
-                  <Label style={{fontSize:14}}>บันทึกความคืบหน้า</Label>
-                    <Textarea  rowSpan={4} bordered 
-                    value = {Contact}
-                    onChangeText={(g)=>setContact(g)}/>
-                </Content>
-              </CardItem>
-              <CardItem>
-                <TouchableHighlight
-                  style={styles.openButtonT}
-                  onPress={() => {
-                    docRefJ.set({
-                      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                      stus:Contact
-                    }, { merge: true })
-                    
-                  }}>
-                  <Text style={styles.textStyle}>บันทึกความคืบหน้า</Text>
-                </TouchableHighlight>
-
+                {dataSourceV.map(ItemView)}
+              
+                <View style = {{alignItems:'center',marginTop:10}}>
+                  <TouchableHighlight
+                    style={styles.openButtonT}
+                    onPress={() => {
+                    setshow(!show)
+                    }}>
+                    <Text style={styles.textStyle}>เพิ่มเติมรายละเอียด{"\n"}เสร็จสิ้น/ยกเลิกงาน</Text>
+                  </TouchableHighlight>
+                </View>
+                {Spro()}
+                {kaw()}
                 {Savekaw()}
-                
-              </CardItem> */}
-              {kaw()}
-              {Savekaw()}
+                {ButtonS()}
+                {ButtonSS()}
+             
             </Card>
           </View>
 
           {/* <View style={{flex:1}}> */}
-            {ButtonS()}
-            {ButtonSS()}
+            
             
           {/* </View> */}
 
         
-        
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisibleG}
+        onRequestClose={() => {
+          setModalVisibleG(!modalVisibleG)
+        }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>ลบความคืบหน้างาน</Text>
+
+              <TouchableHighlight
+                style={{ ...styles.openButton, }}
+                onPress={() => {
+                  getDel()
+                  setModalVisibleG(!modalVisibleG)
+                  
+                }}>
+                <Text style={styles.textStyle}>ยืนยัน</Text>
+              </TouchableHighlight>
+
+              <TouchableHighlight
+                style={{ ...styles.openButton, }}
+                onPress={() => {
+                  setModalVisibleG(!modalVisibleG)
+                }}>
+                <Text style={styles.textStyle}>ยกเลิก</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
         
         <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
-            setModalVisibleCD(!modalVisible)
+            setModalVisible(!modalVisible)
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -720,7 +846,7 @@ const styles = StyleSheet.create({
   itemSeparatorStyle: {
     height: 0.5,
     width: '100%',
-    backgroundColor: '#C8C8C8',
+    backgroundColor: '#3F51B5',
   },
   centeredView: {
     flex: 1,
