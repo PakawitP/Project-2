@@ -4,6 +4,7 @@ import {  CheckBox,Image, StyleSheet, Text, View ,Alert ,ScrollView} from 'react
 import Swiper from 'react-native-swiper'
 import {Keyaut} from '../Keyaut'
 import { Fontisto } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import * as firebase from 'firebase';
 import { firebaseConfig } from './firebaseConfig.js';
@@ -142,6 +143,7 @@ export default function JobAnnou (props) {
       ConfirmKey : null,
       status : "กำลังดำเนินการ",
       NameCustommer : DataU,
+      stus:"เริ่มทำงาน",
       ConfirmKey : null ,
       //createdAt : firebase.firestore.FieldValue.serverTimestamp(),
     }, { merge: true })
@@ -183,6 +185,19 @@ const ItemView = (item, key) => {
     </View>
   );
 };
+
+const showphoto = () =>{
+  if(Data.announcePhoto.length > 0){
+    <CardItem>
+      <Swiper style={styles.swiper} height={250} auto>
+        {
+        //Loop of JS which is like foreach loop
+          Data.announcePhoto.map(ItemView)
+        }
+      </Swiper>
+    </CardItem>
+  }
+}
   
 if(Data != null && DataU != null){
   return (
@@ -217,23 +232,21 @@ if(Data != null && DataU != null){
       <ScrollView>
 
         <View>
+          <View style={{margin:15,alignItems:'center'}}>
+            <Text style={{fontSize:16}}>
+              <AntDesign name="filetext1" size={24} color="#CA7004" /> รายละเอียดงาน
+            </Text>
+          </View>
           <Card>
-            <CardItem>
-              <Swiper style={styles.swiper} height={250} auto>
-                {
-                //Loop of JS which is like foreach loop
-                  Data.announcePhoto.map(ItemView)
-                }
-              </Swiper>
-            </CardItem>
-            <CardItem>
+            {showphoto()}
+            <CardItem style={{flex:1}}>
               <Text>
-                {Data.announceName}
+                ชื่องาน{"\t"}{"\t"}{Data.announceName}
               </Text>
             </CardItem>
-            <CardItem>
+            <CardItem style={{flex:1}}>
               <Text>
-                {Data.announceExplain}
+                อธิบาย/รายละเอียด{"\t"}{"\t"}{Data.announceExplain}
               </Text>
             </CardItem>
 
@@ -241,8 +254,12 @@ if(Data != null && DataU != null){
 
         </View>
 
-
-        <View style = {{marginLeft:15,marginTop:20,marginBottom:40}}>
+        <View style={{margin:15,alignItems:'center'}}>
+            <Text style={{fontSize:16}}>
+              <AntDesign name="form" size={24} color="#CA7004" /> สถานะงาน
+            </Text>
+          </View>
+        <View style = {{marginLeft:15,marginBottom:40}}>
           <View style={styles.checkboxInput}>
             <CheckBox
               value={WorkProgress}

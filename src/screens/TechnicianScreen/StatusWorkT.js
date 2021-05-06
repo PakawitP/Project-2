@@ -27,7 +27,7 @@ export default function JobAnnouShowT (props) {
   const { navigation } = props
   const { KeyJ,KeyAnnou ,Name} = route.params;
   let Key = KeyRef.key
-
+  console.log(KeyJ)
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisibleR, setModalVisibleR] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,7 +38,7 @@ export default function JobAnnouShowT (props) {
   const [modalVisibleCon, setModalVisibleCon] = useState(false);
   const [dataSource, setDataSource] = useState(null);
   const [Contact, setContact] = useState("");
-  const [V,setV] = useState(undefined)
+  const [V,setV] = useState("10")
   const [show,setshow] = useState(false) 
   const [loading, setLoading] = useState(false);
   const [dataSourceJ, setDataSourceJ] = useState(null);
@@ -54,14 +54,13 @@ export default function JobAnnouShowT (props) {
   useEffect(() => {
     getData();
     getProgress();
-  }, []);
+  }, [dataSourceJ != null]);
 
   const getProgress = () =>{
     var dat = []
     docReprog.orderBy("persen").get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
             dat.push(doc.data());
         });
         setDataSourceV(dat)
@@ -199,7 +198,7 @@ const cancle = () =>{
   gettoken(c)
   docRefJ.set({
     Techicianpetition: "cancle",
-    //stus:"ขอยกเลิกงาน",
+    stus:"ขอยกเลิกงาน",
   }, { merge: true }).then(() => {
     Alert.alert(
       "การดำเนินการ",
@@ -215,7 +214,7 @@ const completed = () =>{
   gettoken(c)
   docRefJ.set({
     Techicianpetition: "completed",
-    //stus:"ขอสำเร็จงาน",
+    stus:"ขอสำเร็จงาน",
   }, { merge: true }).then(() => {
     Alert.alert(
       "การดำเนินการ",
@@ -262,7 +261,7 @@ const Rcancle = (R) =>{
     docRefJ.set({
       Custommerpetition: null,
       //createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      //stus:"การขอยกเลิกถูกปฎิเสธ",
+      stus:"การขอยกเลิกถูกปฎิเสธ",
     }, { merge: true })
     setLoading(false)
   }
@@ -276,7 +275,7 @@ const Getjob = () =>{
     TechicianKey:Key,
     ConfirmKey:Key,
     //createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    //stus:"เริ่มทำงาน"
+    stus:"เริ่มทำงาน"
   }, { merge: true }).then(()=>{
     docRef.set({
       announceStatus: true,
@@ -363,6 +362,9 @@ const Savekaw = () =>{
               key:uid
 
             }, { merge: true }).then(()=>{
+              docRefJ.set({
+                stus: Contact,
+              }, { merge: true })
               getProgress()
               Alert.alert(
                 "การดำเนินการ",
@@ -438,6 +440,31 @@ const ButtonSS = () =>{
       </View>
     )
   }
+}
+
+const showwork = () =>{
+  if(dataSourceJ.status != "รอช่างยืนยัน")
+    return(
+      <View>
+        <View style = {{alignItems:'center',margin:10}}>
+          <Text style={{fontSize:16}}>
+            <AntDesign name="areachart" size={24} color="#3F51B5" /> ความคืบหน้าของงาน
+          </Text>
+        </View>
+        
+          {dataSourceV.map(ItemView)}
+        
+          <View style = {{alignItems:'center',marginTop:10}}>
+            <TouchableHighlight
+              style={styles.openButtonT}
+              onPress={() => {
+              setshow(!show)
+              }}>
+              <Text style={styles.textStyle}>เพิ่มเติมรายละเอียด{"\n"}เสร็จสิ้น/ยกเลิกงาน</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+    )
 }
 
 
@@ -522,7 +549,7 @@ if(dataSource != null && dataSourceJ != null && dataSourceV != null){
                   <AntDesign name="creditcard" size={24} color="#3F51B5" /> รายละเอียดงาน
                 </Text>
               </View>
-              <CardItem>
+              <CardItem style={{flex:1}}>
                 <Text>
                   ชื่องาน {dataSource.announceName}
                 </Text>
@@ -540,29 +567,12 @@ if(dataSource != null && dataSourceJ != null && dataSourceV != null){
               
             </Card> 
             <Card> 
-              <View style = {{alignItems:'center',margin:10}}>
-                <Text style={{fontSize:16}}>
-                  ความคืบหน้าของงาน
-                </Text>
-              </View>
-                
-                {dataSourceV.map(ItemView)}
-              
-                <View style = {{alignItems:'center',marginTop:10}}>
-                  <TouchableHighlight
-                    style={styles.openButtonT}
-                    onPress={() => {
-                    setshow(!show)
-                    }}>
-                    <Text style={styles.textStyle}>เพิ่มเติมรายละเอียด{"\n"}เสร็จสิ้น/ยกเลิกงาน</Text>
-                  </TouchableHighlight>
-                </View>
-                {Spro()}
-                {kaw()}
-                {Savekaw()}
-                {ButtonS()}
-                {ButtonSS()}
-             
+              {showwork()}
+              {Spro()}
+              {kaw()}
+              {Savekaw()}
+              {ButtonS()}
+              {ButtonSS()}
             </Card>
           </View>
 

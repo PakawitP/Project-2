@@ -2,11 +2,12 @@ import React,{ useState, useEffect,useCallback } from 'react';
 import { SafeAreaView,Image,StyleSheet, Text, View,Dimensions ,Alert, Modal,ScrollView,RefreshControl,TouchableHighlight } from 'react-native';
 import {Container,Left, Body,Right,Card,CardItem, Title, Header , Subtitle,  Button,Icon,Textarea} from 'native-base' 
 import { AntDesign } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons';
 import MapView,{ PROVIDER_GOOGLE } from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Swiper from 'react-native-swiper'
 import {Keyaut} from '../Keyaut'
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';  
 import * as firebase from 'firebase';
 import { firebaseConfig } from './firebaseConfig.js';
 import 'firebase/firestore';
@@ -31,7 +32,7 @@ export default function JobAnnouShowT (props) {
   const { Ref,Name,Per } = route.params;
   let Key = KeyRef.key
   const [refreshing, setRefreshing] = useState(false);
-  const [Dis,setDis] = useState("คำอธิบาย")
+  const [Dis,setDis] = useState("")
   const [modalVisible, setModalVisible] = useState(false);
   //const [modalVisibleCD, setModalVisibleCD] = useState(false);
   const [dataSource, setDataSource] = useState(null);
@@ -198,6 +199,21 @@ const photocheck = () =>{
   }
 }
 
+const T = () =>{
+  if(dataSource.Motorcycle){
+    return ("ช่างซ่อมรถจักรยานยนต์")
+  }
+  else if(dataSource.Electrician){
+    return ("ช่างซ่อมเครื่องใช้ไฟฟ้า")
+  }
+  else if(dataSource.Electricity){
+    return ("ช่างซ่อมรถจักรยานยนต์")
+  }else{
+    return ("ช่างซ่อมไฟฟ้า")
+  }
+}
+
+
 
 if(dataSource != null){
   return (
@@ -230,14 +246,14 @@ if(dataSource != null){
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
             <Text style={{fontSize:16,margin:10,alignSelf:'center'}}>
-              รูปภาพงาน
+              รูปภาพงาน <FontAwesome name="photo" size={24} color="#3F51B5" />
             </Text>
             {  photocheck()}
           </View>
 
           <View>
             <Text style={{fontSize:16,alignSelf:'center'}}>
-              แผนที่งาน
+              แผนที่งาน <FontAwesome name="map" size={24} color="#3F51B5" />
             </Text>
                 <Card>
                   <CardItem >
@@ -265,50 +281,48 @@ if(dataSource != null){
                   </CardItem> */}
                 </Card>
               </View>
-                      
-          <Card>
-            <CardItem style={{alignSelf:'center'}}>
-              <Text style={{fontSize:16}}>
-                  ข้อมูลงาน
-              </Text>
-            </CardItem>
-            <CardItem>
-              <Left>
+          <View>            
+            <Text style={{fontSize:16,alignSelf:'center',marginTop:20}}>
+              ข้อมูลงาน <FontAwesome5 name="network-wired" size={24} color="#3F51B5" />
+            </Text>        
+            <Card>
+              <CardItem>
+                <Left>
+                  <Text >
+                    ชื่องาน {dataSource.announceName}
+                  </Text>
+                </Left>
+                <Right >
+                  <Text style={{alignSelf:'center'}}>
+                    ประกาศเมื่อ
+                  </Text>
+                  <Text style={{alignSelf:'center'}}>
+                    เวลา{"\t"}{dataSource.createdAt.toDate().toLocaleTimeString()}{"\n"}
+                    วันที่{"\t"}{dataSource.createdAt.toDate().toLocaleDateString()}
+                  </Text>
+                </Right>
+              </CardItem>
+      
+              <CardItem>
                 <Text >
-                  ชื่องาน {dataSource.announceName}
+                  ลักษณะงาน/อธิบาย{"\t"}{dataSource.announceExplain} 
                 </Text>
-              </Left>
-              <Right >
-                <Text style={{alignSelf:'center'}}>
-                  ประกาศเมื่อ
-                </Text>
-                <Text style={{alignSelf:'center'}}>
-                  {dataSource.createdAt.toDate().toLocaleTimeString()} {dataSource.createdAt.toDate().toLocaleDateString()}
-                </Text>
-              </Right>
-            </CardItem>
-    
-            <CardItem>
-              <Text >
-                {dataSource.announceExplain} 
-              </Text>
-            </CardItem>
+              </CardItem>
 
-            <CardItem>
-              <Text style={{fontSize:16}}> {dataSource.Motorcycle ? "ช่างซ่อมรถจักรยานยนต์\n\n" : null} 
-                      {dataSource.Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n\n" : null}
-                      {dataSource.Electricity ? " ช่างซ่อมไฟฟ้า\n\n" : null}
-              </Text>
-            </CardItem>
-            
-            <CardItem>
+              <CardItem>
+                <Text>
+                  ว่าจ้าง{"\t"}{T()}
+                </Text>
+              </CardItem>
               
-                <Textarea rowSpan={4} style={{flex:1}} bordered placeholder="โฆษณา/อธิบาย" 
-                onChangeText={(g)=>setDis(g)}/>
-            
-            </CardItem>
-          </Card>
-
+              <CardItem>
+                
+                  <Textarea rowSpan={4} style={{flex:1}} bordered placeholder="โฆษณา/อธิบาย" 
+                  onChangeText={(g)=>setDis(g)}/>
+              
+              </CardItem>
+            </Card>
+          </View>
           <View style = {{alignItems:'center',marginTop:15}}>
           <TouchableHighlight
             style={styles.openButton}

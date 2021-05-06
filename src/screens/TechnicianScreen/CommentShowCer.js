@@ -1,7 +1,6 @@
 import React,{ useState, useEffect,useCallback } from 'react';
 import { SafeAreaView,StyleSheet, Text, View ,ScrollView,RefreshControl,TouchableHighlight } from 'react-native';
 import {Container,Left, Body,Right,Card,CardItem, Title, Header , Button,Icon} from 'native-base' 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import {ContextT} from './context'
@@ -131,7 +130,7 @@ export default function JobAnnouShowT (props) {
     return (
       // Flat List Item
       <TouchableHighlight View key={key} style ={{margin:5}} 
-        onPress = {() => navigation.navigate('CCommentC',{All: item})}>
+        onPress = {() => navigation.navigate('CommentCer',{All: item})}>
         <Card>
           <CardItem>
             <Left>
@@ -141,7 +140,7 @@ export default function JobAnnouShowT (props) {
             </Left>
             <Right>
               <Text style={styles.itemStyle}>
-                {item.Totle} <FontAwesome name="star" size={24} color="#efce4a" />
+                {item.Totle}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
               </Text>
             </Right>
           </CardItem>
@@ -192,8 +191,18 @@ if(dataSource != null){
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style ={{margin:5}}>
             <Card>
-              <Body><CardItem><View>
-              <Right><Foundation name="graph-bar" size={50} color="#3F51B5" /></Right><Text style={{fontSize:18}}>สรุปคะเเนนประเมิน</Text></View></CardItem></Body>
+              <Body>
+                <CardItem>
+                  <View>
+                    <Right>
+                      <Foundation name="graph-bar" size={50} color="#3F51B5" />
+                    </Right>
+                    <Text style={{fontSize:18}}>
+                      สรุปคะเเนนประเมิน
+                    </Text>
+                  </View>
+                </CardItem>
+              </Body>
               <CardItem>
                 <Left style={{marginLeft:30}}>
                   <Text >
@@ -202,7 +211,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AQuality/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(AQuality/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -215,7 +224,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(APunctual/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(APunctual/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
                 
@@ -229,7 +238,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(ACourtesy/ACount).toFixed(1)}  <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(ACourtesy/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -242,7 +251,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AScharge/ACount).toFixed(1)}  <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(AScharge/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -255,7 +264,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AContact/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(AContact/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
                 
@@ -269,7 +278,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(ATotle/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(ATotle/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>

@@ -95,7 +95,7 @@ export default function StatusWork (props) {
 
   const FilterR= (CC) =>{//คำร้องขอ
     let result = CC.filter((CC) => {
-      return (CC.stus ==  "ขอสำเร็จงาน" || CC.stus ==  "ขอยกเลิกงาน")
+      return (CC.Techicianpetition != CC.Custommerpetition)
     })
     setDataSource(result)
   }
@@ -131,7 +131,12 @@ export default function StatusWork (props) {
                 </Text>
               </Left>
               <Right>
-                <AntDesign name="exclamationcircle" size={24} color="#CA7004" />
+                <View style ={{alignItems:'flex-end'}}>
+                  <AntDesign name="exclamationcircle" size={24} color="#CA7004" />
+                  <Text>
+                    {item.stus}{"\n"}
+                  </Text>
+                </View>
               </Right>
             </CardItem>
           </Card>
@@ -152,11 +157,12 @@ export default function StatusWork (props) {
                 </Text>
               </Left>
               <Right>
-                <Entypo name="briefcase" size={24} color="#CA7004" />
-                {/* <Text>
-                  รอช่างยืนยัน{"\n"}
-                </Text> */}
-                
+                <View style ={{alignItems:'flex-end'}}>
+                  <Entypo name="briefcase" size={24} color="#CA7004" />
+                  <Text>
+                    รอช่างยืนยัน{"\n"}
+                  </Text>
+                </View>
               </Right>
             </CardItem>
           </Card>
@@ -177,7 +183,12 @@ export default function StatusWork (props) {
                 </Text>
               </Left>
               <Right>
-                <AntDesign name="tool" size={24} color="#CA7004" />
+                <View style ={{alignItems:'flex-end'}}>
+                  <AntDesign name="tool" size={24} color="#CA7004" />
+                  <Text>
+                    {item.stus}{"\n"}
+                  </Text>
+                </View>
               </Right>
             </CardItem>
           </Card>
@@ -189,7 +200,7 @@ export default function StatusWork (props) {
   };
 
 
-if(dataSource != null){
+if(dataSource.length>0){
   return (
     <Container>
        <Header style ={{backgroundColor: "#CA7004"}}>
@@ -218,28 +229,30 @@ if(dataSource != null){
         </Right>
       </Header>
 
+      <View style={{flexDirection:'row'}}>
+        <View style={{flex:9}}>
+            <SearchBar
+              searchIcon={{ size: 24 }}
+              onChangeText={(text) => searchFilterFunction(text)}
+              onClear={(text) => searchFilterFunction('')}
+              placeholder="ค้นหารายชื่องาน"
+              lightTheme = {true}
+              // placeholderTextColor= "#CA7004"
+              value={search}
+            /></View>
+            <View style={{flex:1}}>
+            <Button style={{height:66,borderWidth: 1,borderColor: '#e1e8ee',backgroundColor: "#CA7004"}} full onPress={()=>{
+              setModalVisible(true)
+            }}>
+            <FontAwesome name="filter" size={24} color="#FFFFFF" />
+          </Button>
+        </View>
+      </View>
+
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-          <View style={{flexDirection:'row'}}>
-              <View style={{flex:9}}>
-                  <SearchBar
-                    searchIcon={{ size: 24 }}
-                    onChangeText={(text) => searchFilterFunction(text)}
-                    onClear={(text) => searchFilterFunction('')}
-                    placeholder="ค้นหารายชื่องาน"
-                    lightTheme = {true}
-                    // placeholderTextColor= "#CA7004"
-                    value={search}
-                  /></View>
-                  <View style={{flex:1}}>
-                  <Button style={{height:66,backgroundColor: "#CA7004"}} full onPress={()=>{
-                    setModalVisible(true)
-                  }}>
-                  <FontAwesome name="filter" size={24} color="#FFFFFF" />
-                </Button>
-              </View>
-            </View>
+          
             {
             //Loop of JS which is like foreach loop
               dataSource.map(ItemView)
@@ -331,28 +344,30 @@ if(dataSource != null){
         </Right>
       </Header>
 
+      <View style={{flexDirection:'row'}}>
+        <View style={{flex:9}}>
+            <SearchBar
+              searchIcon={{ size: 24 }}
+              onChangeText={(text) => searchFilterFunction(text)}
+              onClear={(text) => searchFilterFunction('')}
+              placeholder="ค้นหารายชื่องาน"
+              lightTheme = {true}
+              // placeholderTextColor= "#CA7004"
+              value={search}
+            /></View>
+            <View style={{flex:1}}>
+            <Button style={{height:66,borderWidth: 1,borderColor: '#e1e8ee',backgroundColor: "#CA7004"}} full onPress={()=>{
+              setModalVisible(true)
+            }}>
+            <FontAwesome name="filter" size={24} color="#FFFFFF" />
+          </Button>
+        </View>
+      </View>
+
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-          <View style={{flexDirection:'row'}}>
-              <View style={{flex:9}}>
-                  <SearchBar
-                    searchIcon={{ size: 24 }}
-                    onChangeText={(text) => searchFilterFunction(text)}
-                    onClear={(text) => searchFilterFunction('')}
-                    placeholder="ค้นหารายชื่องาน"
-                    lightTheme = {true}
-                    // placeholderTextColor= "#CA7004"
-                    value={search}
-                  /></View>
-                  <View style={{flex:1}}>
-                  <Button style={{height:66,backgroundColor: "#CA7004"}} full onPress={()=>{
-                    setModalVisible(true)
-                  }}>
-                  <FontAwesome name="filter" size={24} color="#FFFFFF" />
-                </Button>
-              </View>
-            </View>
+
             
               <View style ={{margin:5}}>
 
@@ -470,12 +485,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

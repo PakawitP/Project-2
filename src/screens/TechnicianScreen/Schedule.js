@@ -57,6 +57,42 @@ export default function MyApp (props){
     navigation.navigate('ScheduleShow')
   }
 
+  const Check = () =>{
+    if(Timeon == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบเวลาเริ่มต้น",)
+    }
+    else if(Timeoff == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบเวลาสิ้นสุด",)
+    }
+    else if(DateS == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบวันเริ่มต้น",)
+    }
+    else if(DateE== null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบวันสิ้นสุด",)
+    }
+    else if(Work == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบชื่องาน",)
+    }
+    else if(Des == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบการอธิบายรายละเอียด",)
+    }
+    else{
+      SaveData()
+    }
+  }
+
   
   const onChange = (event, selectedDate) => {
 
@@ -120,16 +156,7 @@ export default function MyApp (props){
   };
 
 
-  const Check = () =>{
-    if( Timeon != null && Timeoff != null && DateS != null && DateE != null && Work != null && Des != null){
-      SaveData()
-    }else{
-      Alert.alert(
-        "การดำเนินการ",
-        "ข้อมูลไม่ครบถ้วน",)
-    }
 
-  }
 
 
   const showMode = (currentMode) => {

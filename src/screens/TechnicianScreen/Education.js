@@ -133,16 +133,40 @@ export default function Education (props) {
     },{ merge: true })
   }
 
+
+
   const Check = () =>{
-    if(image != null && LevelE != "" && NameS != "" && Gpa != "" && YearC != ""){
-      uploadImage()
-    }else{
+    if(image == null){
       Alert.alert(
-        "การดำเนินการ",
-        "ข้อมูลไม่ครบถ้วน",)
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบรูปภาพ",)
+    }
+    else if(LevelE == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบระดับการศึกษา",)
+    }
+    else if(NameS == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบสถานศึกษา",)
+    }
+    else if(Gpa == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบเกรดเฉลี่ย",)
+    }
+    else if(YearC == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบปีการศึกษาที่จบ",)
+    }else{
+      uploadImage()
     }
     
   }
+
+  
 
 
   return (
@@ -252,7 +276,7 @@ export default function Education (props) {
             />
     
          
-            { <Image source={{ uri: image }} style={{ width: 300, height: 200}} />}
+            { <Image source={{ uri: image }} style={{ width: 300, height: 200,borderWidth: 1,borderColor: '#3F51B5'}} />}
             <Button full rounded  style ={{marginTop: 10, margin:20}}
             // onPress ={()=>SaveData(Name,Contact,Address)}>
               onPress ={Check}>
@@ -306,12 +330,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

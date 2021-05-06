@@ -197,6 +197,29 @@ export default function JobAnnouShowT (props) {
   };
 
 
+  const showcomment = () =>{
+    if(All.Comment != null && All.Comment != ""){
+      return(
+        <View style ={{margin:5}}>
+          <Card>
+            <CardItem>
+              <Text>
+                ความคิดเห็น
+              </Text>
+            </CardItem>
+            <CardItem>
+              <Text>
+                {All.Comment}
+              </Text>
+            </CardItem>
+          </Card>
+        </View>
+      )
+    }
+    
+  }
+
+
 
 
 if(dataSource == null ){
@@ -305,26 +328,13 @@ if(dataSource == null ){
                   
 
                   <Text>
-                   คะเเนนรวม  {All.Totle}  <FontAwesome name="star" size={30} color="#efce4a" />
+                     คะเเนนรวม{"\t"}{"\t"}{All.Totle}{"\t"}<FontAwesome name="star" size={30} color="#efce4a" />
                   </Text>
                 
               </CardItem></Body>
 
 
-              <View style ={{margin:5}}>
-                <Card>
-                  <CardItem>
-                    <Text>
-                      ความคิดเห็น
-                    </Text>
-                  </CardItem>
-                  <CardItem>
-                    <Text>
-                      {All.Comment}
-                    </Text>
-                  </CardItem>
-                </Card>
-              </View>
+              {showcomment()}
             </Card>
 
            

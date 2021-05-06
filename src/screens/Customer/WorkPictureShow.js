@@ -76,7 +76,7 @@ const ItemView = (item, key) => {
 
         <CardItem>
           <Text style={styles.itemStyle}>
-            {item.PhotoExplain}
+            <AntDesign name="filetext1" size={24} color="#CA7004" />{"\t"}{item.PhotoExplain}
           </Text>
         </CardItem>
       </Card>
@@ -98,17 +98,17 @@ const getItem = (item) => {
   //deleteDoc(Ref);
 };
 
-const DeleteDoc = () =>{
-  docRef.doc(Point).delete().then(function() {
-    alert("ลบเสร็จสิ้น");
-  }).catch(function(error) {
-      console.error("Error removing document: ", error);
-  });
-} 
+// const DeleteDoc = () =>{
+//   docRef.doc(Point).delete().then(function() {
+//     alert("ลบเสร็จสิ้น");
+//   }).catch(function(error) {
+//       console.error("Error removing document: ", error);
+//   });
+// } 
 
-const Editdoc = () => {
-  navigation.navigate('WorkPictureEdit',{Ref : Point})
-}
+// const Editdoc = () => {
+//   navigation.navigate('WorkPictureEdit',{Ref : Point})
+// }
 
 if(dataSource.length > 0){
   return (

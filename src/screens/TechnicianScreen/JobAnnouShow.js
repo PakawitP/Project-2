@@ -218,26 +218,34 @@ export default function JobAnnouShow (props) {
                 {item.announceName}
               </Text>
             </Left>
+
             <Right>
-              <Text style={{fontSize:16}}>
-                {item.PCount}  <Fontisto name="person" size={24} color="#3F51B5" />
-              </Text>
+                <View style ={{flexDirection:'row',alignItems:'center'}}>
+                  <Text style={{marginRight : 5}} >
+                    {item.PCount}  
+                  </Text>
+                  <Fontisto name="person" size={24} color="#3F51B5" /> 
+                </View>
             </Right>
           </CardItem>
+
           <CardItem>
             <Left>
               <Text>
-                ประกาศเมื่อ {item.createdAt.toDate().toLocaleTimeString()} {item.createdAt.toDate().toLocaleDateString()}
+              ประกาศเมื่อ{"\t"}{item.createdAt.toDate().toLocaleDateString()}
+
+                {/* ประกาศเมื่อ{"\t"}{item.createdAt.toDate().toLocaleTimeString()}{"\t"}{item.createdAt.toDate().toLocaleDateString()} */}
               </Text>
             </Left>
-            <Right>
-              <Text>
-                ระยะห่าง {Distance(item.Location.latitude,item.Location.longitude).toFixed(3)} ก.ม.
-              </Text>
+
+            <Right >
+              <View >
+                  <Text>
+                    ระยะ {Distance(item.Location.latitude,item.Location.longitude).toFixed(3)}{"\t"}ก.ม.
+                  </Text>
+                </View>
             </Right>
           </CardItem>
-          
-          
         </Card>
 
 
@@ -286,29 +294,31 @@ if(dataSource.length > 0 && Glocation != null){
         </Right>
       </Header>
 
+      <View style={{flexDirection:'row'}}>
+        <View style={{flex:9}}>
+          <SearchBar
+            searchIcon={{ size: 24 }}
+            onChangeText={(text) => searchFilterFunction(text)}
+            onClear={(text) => searchFilterFunction('')}
+            placeholder="ค้นหางาน"
+            lightTheme = {true}
+            // placeholderTextColor= "#CA7004"
+            value={search}
+          />
+        </View>
+        <View style={{flex:1}}>
+          <Button style={{height:66,borderWidth: 1,borderColor: '#e1e8ee'}} full onPress={()=>{
+            setModalVisible(true)
+          }}>
+            <FontAwesome name="sort" size={24} color="#FFFFFF" />
+          </Button>
+        </View>
+      </View>
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           
           <View style={styles.container}>
-          <View style={{flexDirection:'row'}}>
-              <View style={{flex:9}}>
-                  <SearchBar
-                    searchIcon={{ size: 24 }}
-                    onChangeText={(text) => searchFilterFunction(text)}
-                    onClear={(text) => searchFilterFunction('')}
-                    placeholder="ค้นหางาน"
-                    lightTheme = {true}
-                    // placeholderTextColor= "#CA7004"
-                    value={search}
-                  /></View>
-                  <View style={{flex:1}}>
-                  <Button style={{height:66}} full onPress={()=>{
-                    setModalVisible(true)
-                  }}>
-                  <FontAwesome name="sort" size={24} color="#FFFFFF" />
-                </Button>
-              </View>
-            </View>
+            
 
             {
             //Loop of JS which is like foreach loop
@@ -326,7 +336,7 @@ if(dataSource.length > 0 && Glocation != null){
                   <View style={styles.modalView}>
                     <Text style={styles.modalText}>การเรียงลำดับ</Text>
                     <TouchableHighlight
-                      style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                      style={{ ...styles.openButton }}
                       onPress={() => {
                         SortDate(dataSourceT);
                         setModalVisible(false);
@@ -335,7 +345,7 @@ if(dataSource.length > 0 && Glocation != null){
                     </TouchableHighlight>
 
                     <TouchableHighlight
-                      style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                      style={{ ...styles.openButton }}
                       onPress={() => {
                         SortDistance(dataSourceT);
                         setModalVisible(false);
@@ -344,7 +354,7 @@ if(dataSource.length > 0 && Glocation != null){
                     </TouchableHighlight>
                     <Text style={styles.modalText}>ประเภทช่าง</Text>
                     <TouchableHighlight
-                      style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                      style={{ ...styles.openButton}}
                       onPress={() => {
                         setShow(true)
                         getdataD("Motorcycle")
@@ -353,7 +363,7 @@ if(dataSource.length > 0 && Glocation != null){
                       <Text style={styles.textStyle}>รถจักรยานยนต์</Text>
                     </TouchableHighlight>
                     <TouchableHighlight
-                      style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                      style={{ ...styles.openButton}}
                       onPress={() => {
                         setShow(true)
                         getdataD("Electrician")
@@ -362,7 +372,7 @@ if(dataSource.length > 0 && Glocation != null){
                       <Text style={styles.textStyle}>เครื่องใช้ไฟฟ้า</Text>
                     </TouchableHighlight>
                     <TouchableHighlight
-                      style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                      style={{ ...styles.openButton}}
                       onPress={() => {
                         setShow(true)
                         getdataD("Electricity")
@@ -407,21 +417,30 @@ if(dataSource.length > 0 && Glocation != null){
         </Right>
       </Header>
 
+      <View style={{flexDirection:'row'}}>
+        <View style={{flex:9}}>
+          <SearchBar
+            searchIcon={{ size: 24 }}
+            onChangeText={(text) => searchFilterFunction(text)}
+            onClear={(text) => searchFilterFunction('')}
+            placeholder="ค้นหางาน"
+            lightTheme = {true}
+            // placeholderTextColor= "#CA7004"
+            value={search}
+          />
+        </View>
+        <View style={{flex:1}}>
+          <Button style={{height:66,borderWidth: 1,borderColor: '#e1e8ee'}} full onPress={()=>{
+            setModalVisible(true)
+          }}>
+            <FontAwesome name="sort" size={24} color="#FFFFFF" />
+          </Button>
+        </View>
+      </View>
+
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.container}>
-          
-            <View>
-              <SearchBar
-                searchIcon={{ size: 24 }}
-                onChangeText={(text) => searchFilterFunction(text)}
-                onClear={(text) => searchFilterFunction('')}
-                placeholder="ค้นหางาน"
-                lightTheme = {true}
-                // placeholderTextColor= "#CA7004"
-                value={search}
-              />
-            </View>
           
             <View style ={{margin:5}}>
 
@@ -447,7 +466,7 @@ if(dataSource.length > 0 && Glocation != null){
                   <View style={styles.modalView}>
                     <Text style={styles.modalText}>การเรียงลำดับ</Text>
                     <TouchableHighlight
-                      style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                      style={{ ...styles.openButton }}
                       onPress={() => {
                         SortDate(dataSourceT);
                         setModalVisible(false);
@@ -456,12 +475,40 @@ if(dataSource.length > 0 && Glocation != null){
                     </TouchableHighlight>
 
                     <TouchableHighlight
-                      style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                      style={{ ...styles.openButton }}
                       onPress={() => {
                         SortDistance(dataSourceT);
                         setModalVisible(false);
                       }}>
                       <Text style={styles.textStyle}>เรียงจากตำแหน่ง</Text>
+                    </TouchableHighlight>
+                    <Text style={styles.modalText}>ประเภทช่าง</Text>
+                    <TouchableHighlight
+                      style={{ ...styles.openButton}}
+                      onPress={() => {
+                        setShow(true)
+                        getdataD("Motorcycle")
+                        setModalVisible(false);
+                      }}>
+                      <Text style={styles.textStyle}>รถจักรยานยนต์</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                      style={{ ...styles.openButton}}
+                      onPress={() => {
+                        setShow(true)
+                        getdataD("Electrician")
+                        setModalVisible(false);
+                      }}>
+                      <Text style={styles.textStyle}>เครื่องใช้ไฟฟ้า</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight
+                      style={{ ...styles.openButton}}
+                      onPress={() => {
+                        setShow(true)
+                        getdataD("Electricity")
+                        setModalVisible(false);
+                      }}>
+                      <Text style={styles.textStyle}>ไฟฟ้า</Text>
                     </TouchableHighlight>
                   </View>
                 </View>
@@ -511,7 +558,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: '#FE9D09',
+    backgroundColor: '#3F51B5',
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -520,12 +567,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

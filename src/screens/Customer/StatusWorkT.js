@@ -181,7 +181,7 @@ const cancle = () =>{
   gettoken(c)
   docRefJ.set({
     Custommerpetition: "cancle",
-   // stus:"ขอยกเลิกงาน",
+    stus:"ขอยกเลิกงาน",
   }, { merge: true }).then(() => {
     Alert.alert(
       "การดำเนินการ",
@@ -230,7 +230,7 @@ const Rcancle = (R) =>{
     docRefJ.set({
       Techicianpetition: null,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-     // stus:"การขอยกเลิกถูกปฎิเสธ",
+      stus:"การขอยกเลิกถูกปฎิเสธ",
     }, { merge: true })
     // .then(()=>{
     //   navigation.navigate('StatusWork')
@@ -278,7 +278,7 @@ const Rcompleted = (R) =>{
     docRefJ.set({
       Techicianpetition: null,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-     // stus:"การขอเสร็จสิ้นถูกปฎิเสธ",
+      stus:"การขอเสร็จสิ้นถูกปฎิเสธ",
     }, { merge: true })
     // .then(()=>{
     //   navigation.navigate('StatusWork')
@@ -326,7 +326,7 @@ const ButtonG = () =>{
 
 const ItemView = (item, key) => {
   return (
-    <TouchableHighlight View key={key} style ={{margin:5}} onLongPress = {() => {setPoint(item.key);setModalVisibleG(true)}}>
+    <TouchableHighlight View key={key} style ={{margin:5}}>
       <View>
         <Text style={{...styles.itemStyle,marginLeft:20}}>
           เวลา {item.createdAt.toDate().toLocaleTimeString()} วันที่ {item.createdAt.toDate().toLocaleDateString()}
@@ -359,7 +359,7 @@ const countarray = () =>{
         <Card> 
           <View style = {{alignItems:'center',margin:10}}>
             <Text style={{fontSize:16}}>
-              ความคืบหน้าของงาน
+              <AntDesign name="areachart" size={24} color="#CA7004" /> ความคืบหน้าของงาน
             </Text>
           </View>
             {dataSourceV.map(ItemView)}
@@ -408,9 +408,12 @@ if(dataSource != null && dataSourceJ != null){
                 </Text>
               </Body>
               <CardItem>
-                <Text>
-                  ชื่องาน {dataSource.announceName}
-                </Text>
+                <View style={{flex:1}}>
+                  <Text>
+                    ชื่องาน{"\t"}{dataSource.announceName}
+                  </Text>
+                </View>
+                
               </CardItem>
               <CardItem>
                 <Text>
@@ -620,12 +623,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

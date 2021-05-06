@@ -145,14 +145,36 @@ export default function History (props) {
 
 
 
+ 
+
   const checks = () =>{
-    if( Address != null && Name != null && Contact != null && Addressstore != null && image != null){
-      uploadImage()
-      
-    }else{
+    if(Name == ""){
       Alert.alert(
-        "การดำเนินการ",
-        "ข้อมูลไม่ครบถ้วน",)
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบชื่อ",)
+    }
+    else if(Address == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบที่อยู่",)
+    }
+    else if(Contact == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบช่องทางการติดต่อ",)
+    }
+    else if(Addressstore == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบที่อยู่ร้าน",)
+    }
+    else if(image == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบรูปภาพ",)
+    }
+    else{
+      uploadImage()
     }
   }
 
@@ -198,7 +220,7 @@ export default function History (props) {
     <ScrollView>
       <View style={{alignItems: 'center'}}>
 
-      { <Image source={{ uri: image }} style={{ width: 200, height: 250 ,margin: 15}} />}
+      { <Image source={{ uri: image }} style={{ width: 200, height: 250 ,margin: 15,borderWidth: 1,borderColor: '#3F51B5'}} />}
         <Modal
           animationType="slide"
           transparent={true}
@@ -254,24 +276,24 @@ export default function History (props) {
           <Label style={{marginTop:10}}>ชื่อ-สกุล</Label>
           <Item regular>
           
-              <Input placeholder='ชื่อ - สกุล' 
+              <Input placeholder='ชื่อ - สกุล' style={{fontSize:14}}
               
               onChangeText={(e)=>setName(e)}
               value = {Name}/>
           </Item>
 
           <Label style={{marginTop:20}}>ช่องทางการติดต่อ</Label>
-          <Textarea rowSpan={4} bordered placeholder="ช่องทางการติดต่อ" 
+          <Textarea rowSpan={4} bordered placeholder="ช่องทางการติดต่อ"  style={{fontSize:14}}
           value = {Contact}
           onChangeText={(f)=>setContact(f)}/>
 
           <Label style={{marginTop:20}}>ที่อยู่</Label>
-          <Textarea rowSpan={4} bordered placeholder="ที่อยู่" 
+          <Textarea rowSpan={4} bordered placeholder="ที่อยู่"  style={{fontSize:14}}
           value = {Address}
           onChangeText={(g)=>setAddress(g)}/>
 
           <Label style={{marginTop:20}}>ที่อยู่ร้าน</Label>
-          <Textarea rowSpan={4} bordered placeholder="ที่อยู่ร้าน" 
+          <Textarea rowSpan={4} bordered placeholder="ที่อยู่ร้าน"  style={{fontSize:14}}
           value = {Addressstore}
           onChangeText={(g)=>setAddressstore(g)}/>
 
@@ -338,18 +360,16 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {
     marginBottom: 10,
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 14
   },
   boxinput:{
     marginRight: 20,

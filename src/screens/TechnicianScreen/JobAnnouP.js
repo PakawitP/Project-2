@@ -105,17 +105,17 @@ export default function JobAnnouShow (props) {
                 {item.Namejob}
               </Text>
             </Left>
-            {/* <Right>
+            
               <Text>
-                สมัครเมื่อ {item.createdAt.toDate().toLocaleTimeString()} {item.createdAt.toDate().toLocaleDateString()}
+                สมัครเมื่อวันที่ {item.createdAt.toDate().toLocaleDateString()}
               </Text>
-            </Right> */}
+            
           </CardItem>
-          <CardItem>
+          {/* <CardItem>
             <Text>
                 สมัครเมื่อ {item.createdAt.toDate().toLocaleTimeString()} {item.createdAt.toDate().toLocaleDateString()}
               </Text>
-          </CardItem>
+          </CardItem> */}
         </Card>
     </TouchableHighlight>
   );
@@ -151,27 +151,27 @@ if(dataSource.length > 0 ){
           </Button> */}
         </Right>
       </Header>
-
+      <View style={styles.container}>
+        <View>
+          <SearchBar
+            searchIcon={{ size: 24 }}
+            onChangeText={(text) => searchFilterFunction(text)}
+            onClear={(text) => searchFilterFunction('')}
+            placeholder="ค้นหางาน"
+            lightTheme = {true}
+            // placeholderTextColor= "#CA7004"
+            value={search}
+          />
+        </View>
+        {
+        //Loop of JS which is like foreach loop
+          dataSource.map(ItemView)
+        }
+      </View>
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           
-          <View style={styles.container}>
-            <View>
-              <SearchBar
-                searchIcon={{ size: 24 }}
-                onChangeText={(text) => searchFilterFunction(text)}
-                onClear={(text) => searchFilterFunction('')}
-                placeholder="ค้นหางาน"
-                lightTheme = {true}
-                // placeholderTextColor= "#CA7004"
-                value={search}
-              />
-            </View>
-            {
-            //Loop of JS which is like foreach loop
-              dataSource.map(ItemView)
-            }
-          </View>
+          
         </ScrollView>
       </SafeAreaView>
     </Container>

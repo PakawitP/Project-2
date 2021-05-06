@@ -63,15 +63,32 @@ export default function Work (props) {
 
 
 
-   const Check = () =>{
-    if( AddressCom != "" && YearCom != "" && Position != "" && NameCom!= ""){
-      SaveData()
-    }else{
+
+  const Check = () =>{
+    if(NameCom == ""){
       Alert.alert(
-        "การดำเนินการ",
-        "ข้อมูลไม่ครบถ้วน",)
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบชื่อบริษัท/ร้าน",)
     }
     
+    else if(Position == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบตำแหน่งที่ทำ",)
+    }
+    else if(YearCom == "" ){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบช่วงปีที่ทำ",)
+    }
+    else if(AddressCom == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบที่อยู่บริษัท/ร้าน",)
+    }
+    else{
+      SaveData()
+    }
   }
 
   return (

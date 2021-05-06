@@ -124,7 +124,7 @@ const OnoffView = (item, key) => {
     <TouchableHighlight View key={key} style ={{margin:5}} onLongPress = {() => getItem(item,1)}>
 
       <Text style={styles.itemStyle}>
-        {item.on} - {item.off} 
+        {mi(item.on)} - {mi(item.off)}
         {item.Day.Sunday ? "  อา" : ""}
         {item.Day.Monday ? "  จ" : ""}
         {item.Day.Tuesday ? "  อ" : ""}
@@ -149,21 +149,21 @@ const ServicView = (item, key) => {
         <CardItem>
           <MaterialIcons name="work" size={24} color="#3F51B5" />
           <Text style={styles.itemStyle2}>
-            งาน {item.NameWork}
+            งาน{"\t"}{item.NameWork}
           </Text>
         </CardItem>
 
         <CardItem>
           <MaterialIcons name="attach-money" size={24} color="#3F51B5" />
-          <Text style={styles.itemStyle2}>
-            ราตา {item.Rate}
+          <Text style={{...styles.itemStyle2,flex:1}}>
+            ราคา{"\t"}{item.Rate}
           </Text>
         </CardItem>
 
         <CardItem>
           <FontAwesome5 name="hand-rock" size={24} color="#3F51B5" />
           <Text style={styles.itemStyle2}>
-            เทคนิควิธีการ {item.description}
+            เทคนิควิธีการ{"\t"}{"\t"}{item.description}
           </Text>
         </CardItem>
       </Card>
@@ -198,7 +198,38 @@ const DeleteDoc = () =>{
         console.error("Error removing document: ", error);
     });
   }
+  getData()
 } 
+
+const T = () =>{
+  if(Motorcycle == true){
+    return ("ช่างซ่อมรถจักรยานยนต์")
+  }
+  else if(Electrician == true){
+    return ("ช่างซ่อมเครื่องใช้ไฟฟ้า")
+  }
+  else if(Electricity == true){
+    return ("ช่างซ่อมไฟฟ้า")
+  }else{
+    return ("ช่างทั่วไป")
+  }
+}
+
+const mi = (g) =>{
+  let t = g.split(":")
+  let ho
+  let min
+  if(parseInt(t[0]) < 10){
+    ho = ("0"+t[0])
+  }
+  if(parseInt(t[1]) < 10){
+    min =  ("0"+t[1])
+  }
+  else{
+    return g
+  }
+  return (ho+" : "+min)
+}
 
 
 if(dataOnoff.length > 0 || dataService.length > 0){
@@ -309,15 +340,14 @@ if(dataOnoff.length > 0 || dataService.length > 0){
               </View>
 
               <View>
-                <Text style={{fontSize:16}}>{Motorcycle ? " ช่างซ่อมรถจักรยานยนต์\n" : null} 
-                      {Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n" : null}
-                      {Electricity ? " ช่างซ่อมไฟฟ้า\n" : null}
+                <Text style={{fontSize:16}}>
+                  {T()}
                 </Text>
               </View>
             </View>
 
             <View style = {{margin:10}}>
-              <Text>เวลาเปิด-ปิด </Text>
+              <Text>เวลาเปิด-ปิด</Text>
               {dataOnoff.map(OnoffView)}
             </View>
          
@@ -348,7 +378,7 @@ if(dataOnoff.length > 0 || dataService.length > 0){
                 <Title>งานบริการ</Title>
               </View>
               <View style={{marginLeft:10,marginTop:7}}>
-                <FontAwesome5 name="user-tie" size={95} color="#3F51B5" />
+                <FontAwesome5 name="user-tie" size={32} color="#FFFFFF" />
               </View>
             </View>
           </Body>
@@ -368,24 +398,21 @@ if(dataOnoff.length > 0 || dataService.length > 0){
               </View>
               <View>
                 <Text style={{fontSize:16}}>
-                  ประเภทงานบริการ
+                  ไม่มีประเภทงานบริการ
                 </Text>
-                <Text style={{fontSize:16}}>{Motorcycle ? " ช่างซ่อมรถจักรยานยนต์\n" : null} 
-                      {Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n" : null}
-                      {Electricity ? " ช่างซ่อมไฟฟ้า\n" : null}
-                </Text>
+
               </View>
             </View>
 
             <View style = {{margin:10}}>
-              <Text>เวลาเปิด-ปิด </Text>
+              <Text>ไม่มีเวลาเปิด-ปิด </Text>
               
             </View>
          
        
             <View style = {{margin:10}}>
               <Text>
-                งานที่ให้บริการ
+                ไม่มีงานที่ให้บริการ
               </Text>
             </View>
           </View>
@@ -443,12 +470,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

@@ -85,9 +85,16 @@ export default function JobAnnouShowT (props) {
         setAContact(Contact)
         setATotle(Totle)
     }).then(()=>{ 
-      docRefT.set({
-        TotalScore : Totle/Count
-      }, { merge: true })
+      if(Totle/Count >= 0){
+        docRefT.set({
+          TotalScore : Totle/Count
+        }, { merge: true })
+      }else{
+        docRefT.set({
+          TotalScore : 0
+        }, { merge: true })
+      }
+      
     })
     .catch(function(error) {
         console.log("Error getting documents: ", error);
@@ -120,7 +127,7 @@ export default function JobAnnouShowT (props) {
             </Left>
             <Right>
               <Text style={styles.itemStyle}>
-                {item.Totle} <FontAwesome name="star" size={24} color="#efce4a" />
+                {item.Totle}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
               </Text>
             </Right>
           </CardItem>
@@ -139,6 +146,13 @@ export default function JobAnnouShowT (props) {
     wait(300).then(() => setRefreshing(false));
   }, []);
 
+  const point = (a,b) =>{
+    if(a/b >= 0){
+      return (a/b).toFixed(1)
+    }else{
+      return 0
+    }
+  }
   
 
 if(dataSource != null){
@@ -171,8 +185,18 @@ if(dataSource != null){
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style ={{margin:5}}>
             <Card>
-              <Body><CardItem><View>
-              <Right><Foundation name="graph-bar" size={50} color="#CA7004" /></Right><Text style={{fontSize:18}}>สรุปคะเเนนประเมิน</Text></View></CardItem></Body>
+              <Body>
+                <CardItem>
+                  <View>
+                    <Right>
+                      <Foundation name="graph-bar" size={50} color="#CA7004" />
+                    </Right>
+                    <Text style={{fontSize:18}}>
+                      สรุปคะเเนนประเมิน
+                    </Text>
+                  </View>
+                </CardItem>
+              </Body>
               <CardItem>
                 <Left style={{marginLeft:30}}>
                   <Text >
@@ -181,7 +205,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AQuality/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {point(AQuality,ACount)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -194,7 +218,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(APunctual/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {point(APunctual,ACount)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
                 
@@ -208,7 +232,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(ACourtesy/ACount).toFixed(1)}  <FontAwesome name="star" size={24} color="#efce4a" />
+                    {point(ACourtesy,ACount)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -221,7 +245,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AScharge/ACount).toFixed(1)}  <FontAwesome name="star" size={24} color="#efce4a" />
+                    {point(AScharge,ACount)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -234,7 +258,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AContact/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {point(AContact,ACount)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
                 
@@ -248,7 +272,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(ATotle/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {point(ATotle,ACount)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>

@@ -100,7 +100,7 @@ const OnoffView = (item, key) => {
     <TouchableHighlight View key={key} style ={{margin:5}} >
 
       <Text style={styles.itemStyle}>
-        {item.on} - {item.off} 
+        {mi(item.on)} - {mi(item.off)} 
         {item.Day.Sunday ? "  อา" : ""}
         {item.Day.Monday ? "  จ" : ""}
         {item.Day.Tuesday ? "  อ" : ""}
@@ -116,6 +116,38 @@ const OnoffView = (item, key) => {
   );
 };
 
+const mi = (g) =>{
+  let t = g.split(":")
+  let ho
+  let min
+  if(parseInt(t[0]) < 10){
+    ho = ("0"+t[0])
+  }
+  if(parseInt(t[1]) < 10){
+    min =  ("0"+t[1])
+  }
+  else{
+    return g
+  }
+  return (ho+" : "+min)
+}
+
+
+
+const T = () =>{
+  if(Motorcycle){
+    return ("ช่างซ่อมรถจักรยานยนต์")
+  }
+  else if(Electrician){
+    return ("ช่างซ่อมเครื่องใช้ไฟฟ้า")
+  }
+  else if(Electricity){
+    return ("ช่างซ่อมรถจักรยานยนต์")
+  }else{
+    return ("ช่างซ่อมไฟฟ้า")
+  }
+}
+
 const ServicView = (item, key) => {
   return (
     // Flat List Item
@@ -125,21 +157,21 @@ const ServicView = (item, key) => {
         <CardItem>
           <MaterialIcons name="work" size={24} color="#3F51B5" />
           <Text style={styles.itemStyle2}>
-            งาน {item.NameWork}
+            งาน{"\t"}{item.NameWork}
           </Text>
         </CardItem>
 
-        <CardItem>
+        <CardItem >
           <MaterialIcons name="attach-money" size={24} color="#3F51B5" />
-          <Text style={styles.itemStyle2}>
-            ราตา {item.Rate}
+          <Text style={{...styles.itemStyle2,flex:1}}>
+            ราคา{"\t"}{item.Rate}{"\t"}
           </Text>
         </CardItem>
 
         <CardItem>
           <FontAwesome5 name="hand-rock" size={24} color="#3F51B5" />
           <Text style={styles.itemStyle2}>
-            เทคนิควิธีการ {item.description}
+            เทคนิควิธีการ{"\t"}{"\t"}{item.description}
           </Text>
         </CardItem>
       </Card>
@@ -186,9 +218,8 @@ if(dataOnoff.length > 0 || dataService.length > 0){
               </View>
 
               <View>
-                <Text style={{fontSize:16}}>{Motorcycle ? " ช่างซ่อมรถจักรยานยนต์\n" : null} 
-                      {Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n" : null}
-                      {Electricity ? " ช่างซ่อมไฟฟ้า\n" : null}
+                <Text style={{fontSize:16}}>
+                  {T()}
                 </Text>
               </View>
             </View>

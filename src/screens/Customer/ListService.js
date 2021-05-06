@@ -32,8 +32,8 @@ export default function ListTechnicians (props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [search, setSearch] = useState('');
   var docRef = firebase.firestore().collection("users");
+ 
 
-  
   useEffect(() => {
 
     (async () => {
@@ -59,28 +59,49 @@ export default function ListTechnicians (props) {
 
   
   const getdata = () => {
-    var cities = [];
-    docRef.where("Occupations.Technician", "==", true)
-    .onSnapshot(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            let Udata = doc.data()
-            //console.log(Udata)
-            firebase.firestore().collection("users").doc(Udata.Key).collection("ServiceWork")
-            .onSnapshot(function(querySnapshot) {
-              querySnapshot.forEach(function(doc) {
+
+    // docRef.where("Occupations.Technician", "==", true)
+    // .onSnapshot(function(querySnapshot) {
+    //     querySnapshot.forEach(function(doc) {
+    //         Udata = doc.data()
+    //         //console.log(Udata)
+    //         firebase.firestore().collection("users").doc(Udata.Key).collection("ServiceWork")
+    //         .onSnapshot(function(querySnapshot) {
+    //           querySnapshot.forEach(function(doc) {
                   
-                  let Sdata = doc.data()
-                  let Fdata = {...Sdata,...Udata}
-                  console.log(Fdata)
-                  cities.push(Fdata);
-              })
-            });
-            //cities.push(doc.data());
-        })
+    //               Sdata = doc.data()
+    //               Fdata = {...Sdata,...Udata}
+    //               console.log(Fdata)
+    //               cities.push(Fdata);
+    //           })
+    //         });
+    //     })
+    //     setDataSource(cities)
+    //     setDataSourceT(cities)
+    // });
+
+
+    let cities = [];
+    docRef.where("Occupations.Technician", "==", true)
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let Udata = doc.data()
+          firebase.firestore().collection("users").doc(Udata.Key).collection("ServiceWork")
+          .get()
+          .then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                let Sdata = doc.data()
+                let Fdata = {...Sdata,...Udata}
+                console.log(Fdata)
+                cities.push(Fdata);
+              });
+            })
+        });
         setDataSource(cities)
         setDataSourceT(cities)
-    });
-    setShow(1)
+        
+    })
    
   }
 
@@ -152,34 +173,43 @@ const ItemView = (item, key) => {
         <CardItem>
           
           <Text style={styles.itemStyle}>
-            ชื่องาน {item.NameWork} {"\n"}
-            รายละเอียด/อธิบาย {item.description} {"\n"}
-            ให้บริการโดย {item.Name} {"\n"}
+            ชื่องาน{"\t"}{"\t"}{item.NameWork} {"\n"}
+            รายละเอียด/อธิบาย{"\t"}{"\t"}{item.description} {"\n"}
+            ค่าบริการ{"\t"}{"\t"}{item.Rate} {"\n"}
+            ให้บริการโดย{"\t"}{"\t"}{item.Name} {"\n"}
           </Text>
         </CardItem>
-          <CardItem>
-            <Left>
-              <Text style={styles.itemStyle}>
-                งานที่สำเร็จ {item.WorkSuccess} {"\n"}
-                ช่างรับรอง {item.CerTech}
-              </Text>
-            </Left>
-            
-            <Right>
-              <Text style={styles.itemStyle}>
-                คะเเนนรวม {item.TotalScore.toFixed(1)} <FontAwesome name="star" size={20} color="#efce4a" /> {"\n"}
-                ระยะ {Distance(item.latlong.latitude,item.latlong.longitude).toFixed(3)} ก.ม.
-              </Text>
-            </Right>
-          </CardItem>
+        {ItemSeparatorView()}
+        <CardItem>
+          <Left>
+            <Text style={styles.itemStyle}>
+              งานที่สำเร็จ {item.WorkSuccess} {"\n"}
+              ช่างรับรอง {item.CerTech}
+            </Text>
+          </Left>
+          
+          <Right>
+            <Text style={styles.itemStyle}>
+              คะเเนนรวม {item.TotalScore.toFixed(1)} <FontAwesome name="star" size={20} color="#efce4a" /> {"\n"}
+              ระยะ {Distance(item.latlong.latitude,item.latlong.longitude).toFixed(3)} ก.ม.
+            </Text>
+          </Right>
+        </CardItem>
           
       </Card>
     </TouchableHighlight>
   );
 };
 
+const ItemSeparatorView = () => {
+  return (
+    // Flat List Item Separator
+    <View style={styles.itemSeparatorStyle} />
+  );
+};
 
-if(Show == 1 && Glocation != null){
+
+if(Glocation != null){
   console.log(dataSource)
     return (
       <Container>
@@ -221,21 +251,15 @@ if(Show == 1 && Glocation != null){
             value={search}
           />
         </View>
+
+
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
-              
-          
-              
-              {/* List Item as a function */}
-              
-                
+            <View style={styles.container}>    
                 {
                 //Loop of JS which is like foreach loop
                   dataSource.map(ItemView)
                 }
-
-
                 <Modal
                   animationType="slide"
                   transparent={true}
@@ -422,7 +446,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   boxinput:{

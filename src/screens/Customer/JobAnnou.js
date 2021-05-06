@@ -6,7 +6,7 @@ import {Keyaut} from '../Keyaut'
 import MapView,{ PROVIDER_GOOGLE } from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 // import * as Notifications from 'expo-notifications';
-//import { AntDesign } from '@expo/vector-icons'; 
+import { MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { Fontisto } from '@expo/vector-icons';
 import * as firebase from 'firebase';
@@ -191,15 +191,15 @@ export default function JobAnnou (props) {
       }
 
     }else{
-      if(Explain == ""){
-        Alert.alert(
-          "ข้อมูลไม่ครบถ้วน",
-          "ตรวจเช็คคำอธิบายรายละเอียดงาน",)
-      }
-      else if(Name == null){
+      if(Name == null){
         Alert.alert(
           "ข้อมูลไม่ครบถ้วน",
           "ตรวจเช็คชื่องาน",)
+      }
+      else if(Explain == ""){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจเช็คคำอธิบายรายละเอียดงาน",)
       }
       else if(Location == null){
         Alert.alert(
@@ -249,32 +249,30 @@ export default function JobAnnou (props) {
   const MapV = () =>{
     if(Location != null){
       return(
-            <CardItem >
-              <MapView provider={PROVIDER_GOOGLE} style={styles.mapStyle} 
-              zoomEnabled={false}
-              scrollEnabled={false}
-              rotateEnabled={false}
-              zoomTapEnabled={false}
-              zoomControlEnabled={false}
-              region={{
-                latitude: Location.latitude,
-                longitude: Location.longitude,
-                latitudeDelta: 0.008,
-                longitudeDelta: 0.008,
-              }}>
-              <MapView.Marker   provider={PROVIDER_GOOGLE}
-                coordinate={{latitude: Location.latitude,
-                      longitude: Location.longitude,
-                }}    
-              />
-              </MapView>
-            </CardItem>
+            <Card>
+              <CardItem >
+                <MapView provider={PROVIDER_GOOGLE} style={styles.mapStyle} 
+                zoomEnabled={false}
+                scrollEnabled={false}
+                rotateEnabled={false}
+                zoomTapEnabled={false}
+                zoomControlEnabled={false}
+                region={{
+                  latitude: Location.latitude,
+                  longitude: Location.longitude,
+                  latitudeDelta: 0.008,
+                  longitudeDelta: 0.008,
+                }}>
+                <MapView.Marker   provider={PROVIDER_GOOGLE}
+                  coordinate={{latitude: Location.latitude,
+                        longitude: Location.longitude,
+                  }}    
+                />
+                </MapView>
+              </CardItem>
+            </Card>
             )
     
-    }else{
-      return(
-        <Text></Text>
-      );
     }
     
     //;
@@ -332,6 +330,36 @@ export default function JobAnnou (props) {
     });
   }
 
+  const pho = () =>{
+    if(APhoto.length > 0)
+      return(
+
+        <View style={{marginLeft:15,margin:8,marginTop:20,alignItems:'center'}}>
+          <Text style={{fontSize:16}}>
+          <MaterialIcons name="photo-library" size={24} color="#CA7004" /> รูปภาพที่บันทึกเเล้ว
+          </Text>
+        </View>
+        
+      )
+  }
+
+  const but = () =>{
+    if(image != null){
+      return(
+        <View style = {{alignItems:'center'}}>
+            <Image source={{ uri: image }} style={{ width: 350, height: 200}} />
+            <View style = {{alignItems:'center',marginTop:20}}>
+              <TouchableHighlight
+                style={styles.openButton}
+                onPress={uploadImage}>
+                <Text style={styles.textStyle}>อัพโหลดรูป</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+      )
+    }
+  }
+
   return (
     // <Container style={styles.container}>
     <Container style={styles.container}>
@@ -375,12 +403,17 @@ export default function JobAnnou (props) {
 
         <Content padder >
 
-          <Textarea rowSpan={5} bordered placeholder="อธิบาย" 
+          <Textarea rowSpan={5} bordered placeholder="อธิบาย/รายละเอียด" 
           onChangeText={(g)=>setExplain(g)}/>
 
         </Content>
       
-
+        <View style={{marginLeft:15,margin:8}}>
+          <Text style={{fontSize:16}}>
+            <MaterialIcons name="handyman" size={24} color="#CA7004" /> ประเภทช่าง
+          </Text>
+        </View>
+        
         <View style = {{marginLeft:15,marginTop:5}}>
           <View style={styles.checkboxInput}>
             <CheckBox
@@ -434,9 +467,9 @@ export default function JobAnnou (props) {
           </TouchableHighlight>
         </View>
         <View>
-          <Card>
-            {MapV()}
-          </Card>
+          
+        {MapV()}
+         
           
         </View>
 
@@ -459,7 +492,7 @@ export default function JobAnnou (props) {
 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-          { <Image source={{ uri: image }} style={{ width: 350, height: 200}} />}
+           
 
           <Modal
             animationType="slide"
@@ -524,24 +557,24 @@ export default function JobAnnou (props) {
           </Modal>
         </View>
 
-
-
-        <View style = {{alignItems:'center',marginTop:20}}>
-          <TouchableHighlight
-            style={styles.openButton}
-            onPress={uploadImage}>
-            <Text style={styles.textStyle}>อัพโหลดรูป</Text>
-          </TouchableHighlight>
-        </View>
-
-
+        {/* <View>
+          <Image source={{ uri: image }} style={{ width: 350, height: 200}} />
+          <View style = {{alignItems:'center',marginTop:20}}>
+            <TouchableHighlight
+              style={styles.openButton}
+              onPress={uploadImage}>
+              <Text style={styles.textStyle}>อัพโหลดรูป</Text>
+            </TouchableHighlight>
+          </View>
+        </View> */}
+        {but()}
+        {pho()}
 
         <View style={styles.container}>
           {
           //Loop of JS which is like foreach loop
             APhoto.map(ItemView)
           }
-            
         </View>
 
         <Content padder>
@@ -601,18 +634,16 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {
     marginBottom: 10,
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 14
   },
   boxinput:{
     marginRight: 20,

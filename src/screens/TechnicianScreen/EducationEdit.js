@@ -157,6 +157,37 @@ export default function History (props) {
     },{ merge: true })
   }
 
+  const Check = () =>{
+    if(image == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบรูปภาพ",)
+    }
+    else if(LevelE == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบระดับการศึกษา",)
+    }
+    else if(NameS == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบสถานศึกษา",)
+    }
+    else if(Gpa == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบเกรดเฉลี่ย",)
+    }
+    else if(YearC == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบปีการศึกษาที่จบ",)
+    }else{
+      uploadImage()
+    }
+    
+  }
+
  if(Data != null){
   return (
     <Container>
@@ -268,7 +299,7 @@ export default function History (props) {
             { <Image source={{ uri: image }} style={{ width: 300, height: 200}} />}
             <Button full rounded  style ={{marginTop: 10, margin:20}}
             // onPress ={()=>SaveData(Name,Contact,Address)}>
-              onPress ={uploadImage}>
+              onPress ={Check}>
               <Text>บันทึก</Text>
             </Button>
       
@@ -327,18 +358,16 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {
     marginBottom: 10,
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 14
   },
   boxinput:{
     marginRight: 20,

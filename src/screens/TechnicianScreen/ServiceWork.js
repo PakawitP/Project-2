@@ -12,17 +12,15 @@ if (!firebase.apps.length) {
 import Spinner from 'react-native-loading-spinner-overlay';
 import {Container,Left, Body,Right,Content, Title, Header ,Input, Item, Button,Icon,Textarea,Card, CardItem,} from 'native-base' 
 import React, { useState, useEffect} from "react";
-import { CheckBox, Text, StyleSheet, View ,  Platform,ScrollView} from "react-native";
+import { CheckBox, Text, StyleSheet, View ,  Platform,ScrollView,Alert} from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { G } from 'react-native-svg';
 
 
 export default function MyApp (props){
   const { navigation } = props
 
   const KeyRef = React.useContext(Keyaut);
-  // var docRefOccupation = firebase.firestore().collection("users").doc("LA");
-  // var docRefOnoff = firebase.firestore().collection("users").doc("LA").collection("onoff");
-  // var docRefService = firebase.firestore().collection("users").doc("LA").collection("ServiceWork");
   var docRefOccupation = firebase.firestore().collection("users").doc(KeyRef.key);
   var docRefOnoff = firebase.firestore().collection("users").doc(KeyRef.key).collection("onoff");
   var docRefService = firebase.firestore().collection("users").doc(KeyRef.key).collection("ServiceWork")
@@ -93,7 +91,7 @@ export default function MyApp (props){
     }
 
     
-  }, [isOcc,isTime,isWorkD]);
+  }, []);
 
   const Occupation = () =>{
     if(Motorcycle != false || Electrician != false || Electricity != false){
@@ -104,6 +102,11 @@ export default function MyApp (props){
         Technician: true,
       }},{ merge: true })
     }
+    setLoading(false)
+    Alert.alert(
+      "การดำเนินการ",
+      "บันทึกสำเร็จ",)
+    setOcc(!isOcc)
   }
 
   const SavaOnoff = () =>{
@@ -122,6 +125,11 @@ export default function MyApp (props){
         Key : uidOnoff
       },{ merge: true })
     }
+    setLoading(false)
+    Alert.alert(
+      "การดำเนินการ",
+      "บันทึกสำเร็จ",)
+    setTime(!isTime)
   }
 
   const SaveServiceWork = () =>{
@@ -134,15 +142,72 @@ export default function MyApp (props){
         Key : uidService
       },{ merge: true })
     }
+    setLoading(false)
+    Alert.alert(
+      "การดำเนินการ",
+      "บันทึกสำเร็จ",)
+    setWorkD(!isWorkD)
+
+    
   }
 
-  const SaveData = () =>{
+  const check = () =>{
+    if(isOcc){
+      if(Motorcycle == false && Electrician == false && Electricity == false){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจสอบประเภทช่าง",)
+      }else{
+        SaveData(2)
+      }
+    }
+    if(isTime){
+      if(Timeon == null || Timeoff == null){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "เลือกเวลาเปิด - ปิด",)
+      }
+      else if(!(Sunday || Monday || Tuesday || Wednesday || Thursday || Friday || Saturday)){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "เลือกวันทำการ",)
+      }else{
+        SaveData(1)
+      }
+    }
+    if(isWorkD){
+      if(Work == null && Rate == null && Dis == null){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจสอบชื่องานบริการ",)
+      }
+      else if(Rate == null){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจสอบอัตราค่าบริการ",)
+      }
+      else if(Dis == null){
+        Alert.alert(
+          "ข้อมูลไม่ครบถ้วน",
+          "ตรวจสอบคำอธิบาย/รายละเอียด",)
+      }else{
+        SaveData(3)
+      }
+    }
+  }
+  const SaveData = (a) =>{
     setLoading(true)
-    SavaOnoff();
-    Occupation();
-    SaveServiceWork();
-    setLoading(false)
-    navigation.navigate('ServiceWorkShow')
+    if(a == 1){
+      SavaOnoff();
+    }
+    else if(a == 2){
+      Occupation();
+    }
+    else if(a == 3){
+      SaveServiceWork();
+    }
+    
+    // navigation.navigate('ServiceWorkShow')
   }
 
 
@@ -271,10 +336,14 @@ export default function MyApp (props){
           )}
           <View style = {{flex: 2,flexDirection:'row',alignItems: 'center',margin:15}}>
             <View>
-              <Text>เวลาเปิด {Timeon}</Text>
+              <Text>
+                {P()}
+              </Text>
             </View>
             <View>
-              <Text> -  {Timeoff}</Text>
+              <Text>
+                {G()}
+              </Text>
             </View>
           </View>
         </View>
@@ -352,6 +421,17 @@ export default function MyApp (props){
     )
   }
 
+const P = () =>{
+    if(Timeon != null){
+      return "เวลาเปิด "+Timeon
+    }
+}
+
+const G = () =>{
+  if(Timeoff != null){
+    return " - "+Timeoff
+  }
+}
 const WorkD = () => {
   if(isWorkD == true)
   return(
@@ -383,7 +463,7 @@ const saveW = () =>{
   return(
     <Button  full rounded    style ={{marginTop: 10, margin:20,color:'#ffffff'}}
     // onPress ={()=>SaveData(Name,Contact,Address)}>
-    onPress ={SaveData}
+    onPress ={check}
     >
       <Text style ={{color:'#ffffff'}}> บันทึก </Text>
     </Button>

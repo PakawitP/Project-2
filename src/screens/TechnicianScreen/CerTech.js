@@ -78,11 +78,11 @@ const ItemView = (item, key) => {
               {item.Name}
             </Text>
           </Left>
-          
+          <View style={{alignItems:'flex-end'}}>
             <Text style={styles.itemStyle}>
-              ขอเมื่อ {item.createdAt.toDate().toLocaleTimeString()} {item.createdAt.toDate().toLocaleDateString()}
+              ขอเมื่อ{"\t"}{item.createdAt.toDate().toLocaleTimeString()}{"\t"}{"\t"}{item.createdAt.toDate().toLocaleDateString()}
             </Text>
-          
+          </View>
         </CardItem>
       </Card>
 
@@ -241,7 +241,7 @@ if(dataSource.length > 0){
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <TouchableHighlight
-                  style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                  style={{ ...styles.openButton, }}
                   onPress={() => {
                     //SortPoint(dataSourceT);
                     setModalVisibleC(false);//{}Tkey: Request
@@ -251,7 +251,7 @@ if(dataSource.length > 0){
                 </TouchableHighlight>
 
                 <TouchableHighlight
-                  style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
+                  style={{ ...styles.openButton, }}
                   onPress={() => {
                     VerifyCer();
                     gettoken()
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   itemSeparatorStyle: {
     height: 0.5,
     width: '100%',
-    backgroundColor: '#C8C8C8',
+    backgroundColor: '#3F51B5',
   },
   centeredView: {
     flex: 1,
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   openButton: {
-    backgroundColor: '#FE9D09',
+    backgroundColor: '#3F51B5',
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -379,12 +379,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

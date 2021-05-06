@@ -111,7 +111,8 @@ const ApplicantsView = (item, key) => {
       <Card>
         <CardItem>
           <Text style={styles.itemStyle}>
-            {item.Name}{"\n"}{item.explain}
+            {item.Name}
+            {checkexp(item.explain)}
           </Text>
         </CardItem>
       </Card>
@@ -121,7 +122,11 @@ const ApplicantsView = (item, key) => {
   );
 };
 
-
+const checkexp = (e) =>{
+  if(e != "" && e != null){
+    return "\n"+e
+  }
+}
 
 
 
@@ -207,6 +212,36 @@ const photocheck = () =>{
   }
 }
 
+const T = () =>{
+  if(dataSource.Motorcycle){
+    return ("ช่างซ่อมรถจักรยานยนต์")
+  }
+  else if(dataSource.Electrician){
+    return ("ช่างซ่อมเครื่องใช้ไฟฟ้า")
+  }
+  else if(dataSource.Electricity){
+    return ("ช่างซ่อมรถจักรยานยนต์")
+  }else{
+    return ("ช่างซ่อมไฟฟ้า")
+  }
+}
+
+const app = () =>{
+  if(Applicants.length > 0){
+    return(
+      <Card>
+      <Body style={{flexDirection:'row',marginTop:10}}>
+        <MaterialIcons name="person" size={24} color="#CA7004" />
+        <Text style={{fontSize:16}}>
+          {"\t"}ผู้สมัคร
+        </Text>
+      </Body>
+          {Applicants.map(ApplicantsView)} 
+      </Card>
+    )
+  }
+}
+
 if(dataSource != null){
   return (
     <Container>
@@ -253,7 +288,7 @@ if(dataSource != null){
             <Card>
               <Body style={{flexDirection:'row',marginTop:10}}>
                 <MaterialIcons name="gps-fixed" size={24} color="#CA7004" />
-                <Text >
+                <Text style={{fontSize:16}}>
                   {"\t"}แผนที่
                 </Text>
               </Body>
@@ -284,8 +319,8 @@ if(dataSource != null){
             <Card>
               <Body style={{flexDirection:'row',marginTop:10}}>
                 <MaterialIcons name="style" size={24} color="#CA7004" />
-                <Text >
-                  {"\t"}รายละเอียดงาน
+                <Text style={{fontSize:16}}>
+                  {"\t"}อธิบาย/รายละเอียดงาน
                 </Text>
               </Body>
               <CardItem>
@@ -298,32 +333,21 @@ if(dataSource != null){
       
               <CardItem>
                 <Text >
-                  {dataSource.announceExplain} 
+                รายละเอียด {dataSource.announceExplain} 
                 </Text>
               </CardItem>
 
               <CardItem>
-                <Text style={{fontSize:16}}> {dataSource.Motorcycle ? "ช่างซ่อมรถจักรยานยนต์\n\n" : null} 
-                        {dataSource.Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n\n" : null}
-                        {dataSource.Electricity ? " ช่างซ่อมไฟฟ้า\n\n" : null}
+                <Text > 
+                  ต้องการว่าจ้าง{"\t"}{T()}
                 </Text>
               </CardItem>
               
             </Card>
 
-            <Card>
-              <Body style={{flexDirection:'row',marginTop:10}}>
-                <MaterialIcons name="person" size={24} color="#CA7004" />
-                <Text >
-                  {"\t"}ผู้สมัคร
-                </Text>
-              </Body>
-              {/* <CardItem>
-                <View> */}
-                  {Applicants.map(ApplicantsView)} 
-                {/* </View>
-              </CardItem> */}
-            </Card>
+            {app()}
+
+            
           </View>
           <View style={styles.centeredView}>
           <Modal
@@ -487,18 +511,16 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {
     marginBottom: 10,
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 14
   },
   swiper: {
     height: 200

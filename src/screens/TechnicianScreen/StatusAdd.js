@@ -8,6 +8,7 @@ import * as firebase from 'firebase';
 import { firebaseConfig } from './firebaseConfig.js';
 import 'firebase/firestore';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
 require("firebase/firestore");
 if (!firebase.apps.length) {
@@ -189,15 +190,66 @@ export default function JobAnnou (props) {
     console.log(APhoto)
   }
 
-  const checks = () =>{
-    if( Name != null && Explain != "" && C == true ){
-      SaveData()
+  // const checks = () =>{
+  //   if( Name != null && Explain != "" && C == true ){
+  //     SaveData()
       
-    }else{
+  //   }else{
+  //     Alert.alert(
+  //       "การดำเนินการ",
+  //       "ข้อมูลไม่ครบถ้วน",)
+  //   }
+  // }
+
+  const checks = () =>{
+    if(Name == null){
       Alert.alert(
-        "การดำเนินการ",
-        "ข้อมูลไม่ครบถ้วน",)
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบชื่องาน",)
     }
+    else if(Explain == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบคำอธิบาย/รายละเอียด",)
+    }
+    else if(!(Motorcycle || Electrician || Electricity)){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบประเภทช่าง",)
+    }
+    else{
+      SaveData()
+    }
+  }
+
+  const showphoto = () =>{
+    if(image != null){
+      return(
+        <View>
+            { <Image source={{ uri: image }} style={{ width: 350, height: 200}} />}
+            <View style = {{alignItems:'center',marginTop:20}}>
+              <TouchableHighlight
+                style={styles.openButton}
+                onPress={uploadImage}>
+                <Text style={styles.textStyle}>อัพโหลดรูป</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+      )
+    }
+  }
+
+  const pho = () =>{
+    if(APhoto.length > 0)
+      return(
+
+        <View style={{marginLeft:15,margin:8,marginTop:20,alignItems:'center'}}>
+          <Text style={{fontSize:16}}>
+          <MaterialIcons name="photo-library" size={24} color="#3F51B5" /> รูปภาพที่บันทึกเเล้ว
+          </Text>
+        </View>
+        
+      )
   }
 
 
@@ -234,7 +286,7 @@ export default function JobAnnou (props) {
 
         <Item regular style = {{marginLeft:10,marginRight:10,marginTop:20}}>
   
-          <Input placeholder='ชื่องาน' 
+          <Input placeholder='ชื่องาน'  style = {{fontSize:16}}
           
           onChangeText={(e)=>setName(e)}
           value = {Name}
@@ -244,13 +296,17 @@ export default function JobAnnou (props) {
 
         <Content padder >
 
-          <Textarea rowSpan={5} bordered placeholder="อธิบาย" 
+          <Textarea rowSpan={5} bordered placeholder="คำอธิบาย/รายละเอียด"  style = {{fontSize:16}}
           onChangeText={(g)=>setExplain(g)}/>
 
         </Content>
       
-
+        
         <View style = {{marginLeft:15,marginTop:5}}>
+          <Text style={{margin:10,fontSize:16}}>
+            <MaterialIcons name="handyman" size={24} color="#3F51B5" /> ประเภทช่าง
+          </Text>
+       
           <View style={styles.checkboxInput}>
             <CheckBox
               value={Motorcycle}
@@ -292,40 +348,6 @@ export default function JobAnnou (props) {
           </View>
         </View>
 
-        {/* <View style = {{marginLeft:15,marginTop:5}}>
-          <View style={styles.checkboxInput}>
-            <CheckBox
-              value={WorkProgress}
-              onValueChange={setWorkProgress}
-              style={styles.checkbox}
-            />
-            <Text style={styles.label}>กำลังดำเนินการ</Text>
-          </View>
-
-
-          <View style={styles.checkboxInput}>
-            <CheckBox
-              value={WorkSuccess}
-              onValueChange={setWorkSuccess}
-              style={styles.checkbox}
-            />
-            <Text style={styles.label}>งานเสร็จสิ้น</Text>
-          </View>
-
-        </View> */}
-
-        {/* <View style = {{alignItems:'center'}}>
-          <TouchableHighlight
-            style={styles.openButton}
-            onPress={() => {
-              navigation.navigate('JobAnnouPic');
-            }}>
-            <Text style={styles.textStyle}>เลือกรูป</Text>
-          </TouchableHighlight>
-        </View> */}
-
-        
-      {/* <Text>{APhoto.length}</Text> */}
 
         <View style = {{alignItems:'center'}}>
           <TouchableHighlight
@@ -337,14 +359,10 @@ export default function JobAnnou (props) {
           </TouchableHighlight>
         </View>
 
-        
-
-
-
 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-          { <Image source={{ uri: image }} style={{ width: 350, height: 200}} />}
+          {showphoto()}
 
           <Modal
             animationType="slide"
@@ -411,16 +429,10 @@ export default function JobAnnou (props) {
 
 
 
-        <View style = {{alignItems:'center',marginTop:20}}>
-          <TouchableHighlight
-            style={styles.openButton}
-            onPress={uploadImage}>
-            <Text style={styles.textStyle}>อัพโหลดรูป</Text>
-          </TouchableHighlight>
-        </View>
+        
 
 
-
+        {pho()}
         <View style={styles.container}>
           {
           //Loop of JS which is like foreach loop
@@ -486,12 +498,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

@@ -1,9 +1,9 @@
 import React,{ useState, useEffect,useCallback } from 'react';
-import { SafeAreaView,Image,StyleSheet, Text, View ,ScrollView,RefreshControl,TouchableOpacity, } from 'react-native';
+import { SafeAreaView,Image,StyleSheet, Text, View ,ScrollView,RefreshControl,TouchableOpacity,Alert } from 'react-native';
 import {Container,Left, Body,Right,Card,CardItem, Title, Header , Subtitle,  Button,Icon,Textarea} from 'native-base' 
 import { AntDesign } from '@expo/vector-icons'; 
 // import { Entypo } from '@expo/vector-icons';
-// import Swiper from 'react-native-swiper'
+import { Ionicons } from '@expo/vector-icons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Fontisto } from '@expo/vector-icons';
 import {Keyaut} from '../Keyaut'
@@ -250,6 +250,36 @@ const Doc = () =>{
   })
 } 
 
+const check = () =>{
+  if(Ratingquality == 0){
+    Alert.alert(
+      "ข้อมูลไม่ครบถ้วน",
+      "ให้คะเเนนคุณภาพของงาน",)
+  }
+  else if(RatingPunctual == 0){
+    Alert.alert(
+      "ข้อมูลไม่ครบถ้วน",
+      "ให้คะเเนนการตรงต่อเวลา",)
+  }
+  else if(Ratingcourtesy == 0){
+    Alert.alert(
+      "ข้อมูลไม่ครบถ้วน",
+      "ให้คะเเนนการบริการ/มารยาท",)
+  }
+  else if(RatingScharge == 0){
+    Alert.alert(
+      "ข้อมูลไม่ครบถ้วน",
+      "ให้คะเเนนการคิดค่าบริการ",)
+  }
+  else if(Ratingcontact == 0){
+    Alert.alert(
+      "ข้อมูลไม่ครบถ้วน",
+      "ให้คะเเนนความสะดวกในการติดต่อ",)
+  }
+  else{
+    Doc()
+  }
+}
 
 
 if(dataSource != null && App != null){
@@ -284,23 +314,30 @@ if(dataSource != null && App != null){
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style ={{margin:5}}>
             <Card>
+              <View style={{alignItems:'center',margin:10}}>
+                <Text style={{fontSize:16}}>
+                  <AntDesign name="pushpino" size={24} color="#CA7004" /> รายละเอียดงาน
+                </Text>
+              </View>
+
+              
               <CardItem>
                 <View>
                   <Text >
-                    ชื่องาน {dataSource.announceName}
+                    ชื่องาน{"\t"}{dataSource.announceName}
                   </Text>
                 </View>
               </CardItem>
       
               <CardItem>
                 <Text >
-                  คำอธิบายงาน {dataSource.announceExplain} 
+                  คำอธิบายงาน{"\t"}{"\t"}{dataSource.announceExplain} 
                 </Text>
               </CardItem>
 
               <CardItem>
                 <Text >
-                  เปลี่ยนแปลงล่าสุด {dataSource.createdAt.toDate().toLocaleTimeString()} {dataSource.createdAt.toDate().toLocaleDateString()}
+                  เปลี่ยนแปลงล่าสุด{"\t"}{dataSource.createdAt.toDate().toLocaleTimeString()} {dataSource.createdAt.toDate().toLocaleDateString()}
                 </Text>
               </CardItem>
 
@@ -310,8 +347,8 @@ if(dataSource != null && App != null){
               
                 <Body>
                 <View style={{margin:10}}>
-                  <Text >
-                    ผู้รับทำงาน
+                  <Text style={{fontSize:16}}>
+                    <AntDesign name="idcard" size={27} color="#CA7004" />{"\t"}{"\t"}ผู้รับทำงาน
                   </Text>
                 </View>
 
@@ -328,8 +365,8 @@ if(dataSource != null && App != null){
             <Card>
             <Body>
               <CardItem>   
-                <Text>
-                  การคะเเนนเเละประเมินงาน
+                <Text style={{fontSize:16}}>
+                  <AntDesign name="like2" size={24} color="#CA7004" /> การคะเเนนเเละประเมินงาน
                 </Text>
               </CardItem>
             </Body>
@@ -409,7 +446,7 @@ if(dataSource != null && App != null){
               
             </Card>
             <Button  full rounded    style ={{marginTop: 10, margin:20,backgroundColor:"#CA7004"}}
-             onPress = {Doc} >
+             onPress = {check} >
               <Text style = {{color: '#FFFFFF',textAlign:'center'}}> บันทึก </Text>
             </Button>
           </View>
@@ -520,7 +557,7 @@ const styles = StyleSheet.create({
   },
   textStyleSmall: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 14,
     color: '#000',
     marginTop: 15,
   },

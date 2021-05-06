@@ -217,6 +217,20 @@ export default function ListTechnicians (props) {
     });
   }
   
+  const T = (a) =>{
+   
+    if(a.Motorcycle == true){
+      return ("ช่างซ่อมรถจักรยานยนต์")
+    }
+    else if(a.Electrician == true){
+      return ("ช่างซ่อมเครื่องใช้ไฟฟ้า")
+    }
+    else if(a.Electricity == true){
+      return ("ช่างซ่อมไฟฟ้า")
+    }else{
+      return ("ช่างทั่วไป")
+    }
+  }  
 
 const ItemView = (item, key) => {
     return (
@@ -233,9 +247,7 @@ const ItemView = (item, key) => {
                 ชื่อ {item.Name}
               </Text>
               <Text style={styles.itemStyle}>
-                {item.Occupations.Motorcycle ? " ช่างซ่อมรถจักรยานยนต์\n" : null} 
-                {item.Occupations.Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n" : null}
-                {item.Occupations.Electricity ? " ช่างซ่อมไฟฟ้า\n" : null}
+                {T(item.Occupations)}
               </Text> 
               <Text style={styles.itemStyle}>
                 คะเเนนรวม {item.TotalScore.toFixed(1)} <FontAwesome name="star" size={20} color="#efce4a" />
@@ -401,7 +413,7 @@ if(Show == 1 && Glocation != null){
                     </TouchableHighlight>
 
                     <TouchableHighlight
-                      style={{ ...styles.openButton, backgroundColor: '#2196F3',marginTop:30 }}
+                      style={{ ...styles.openButton,marginTop:30 }}
                       onPress={() => {
                         SortOcc()
                         setModalVisible(false);
@@ -508,7 +520,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   boxinput:{

@@ -74,7 +74,7 @@ const ItemView = (item, key) => {
 
         <CardItem>
           <Text style={styles.itemStyle}>
-          <AntDesign name="filetext1" size={24} color="#3F51B5" /> {item.PhotoExplain}
+            <AntDesign name="filetext1" size={24} color="#3F51B5" /> {item.PhotoExplain}
           </Text>
         </CardItem>
       </Card>
@@ -319,12 +319,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

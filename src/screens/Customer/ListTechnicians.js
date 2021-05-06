@@ -73,8 +73,7 @@ export default function ListTechnicians (props) {
         setDataSourceT(cities)
         cities = []
     });
-    setShow(1)
-   
+
   }
 
   const onRefresh = useCallback(() => {
@@ -121,7 +120,7 @@ export default function ListTechnicians (props) {
         
       }
       else if(Electrician == true){
-        if(setDataSourceT.Occupations.Electrician == true){
+        if(dataSourceT.Occupations.Electrician == true){
           Occupations.push(dataSourceT)
         }
       }
@@ -163,7 +162,20 @@ export default function ListTechnicians (props) {
   };
 
   
-  
+  const T = (a) =>{
+   
+    if(a.Motorcycle == true){
+      return ("ช่างซ่อมรถจักรยานยนต์")
+    }
+    else if(a.Electrician == true){
+      return ("ช่างซ่อมเครื่องใช้ไฟฟ้า")
+    }
+    else if(a.Electricity == true){
+      return ("ช่างซ่อมไฟฟ้า")
+    }else{
+      return ("ช่างทั่วไป")
+    }
+  }
 
 const ItemView = (item, key) => {
   if(item.Verify == true){
@@ -180,9 +192,7 @@ const ItemView = (item, key) => {
                 ชื่อ {item.Name}
               </Text>
               <Text style={styles.itemStyle}>
-                {item.Occupations.Motorcycle ? " ช่างซ่อมรถจักรยานยนต์\n" : null} 
-                {item.Occupations.Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n" : null}
-                {item.Occupations.Electricity ? " ช่างซ่อมไฟฟ้า\n" : null}
+                {T(item.Occupations)}
               </Text> 
               <Text style={styles.itemStyle}>
                 คะเเนนรวม {item.TotalScore.toFixed(1)} <FontAwesome name="star" size={20} color="#efce4a" />
@@ -218,9 +228,7 @@ const ItemView = (item, key) => {
                 ชื่อ {item.Name}
               </Text>
               <Text style={styles.itemStyle}>
-                {item.Occupations.Motorcycle ? " ช่างซ่อมรถจักรยานยนต์\n" : null} 
-                {item.Occupations.Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n" : null}
-                {item.Occupations.Electricity ? " ช่างซ่อมไฟฟ้า\n" : null}
+                {T(item.Occupations)}
               </Text> 
               <Text style={styles.itemStyle}>
                 คะเเนนรวม {item.TotalScore.toFixed(1)} <FontAwesome name="star" size={20} color="#efce4a" />
@@ -245,7 +253,7 @@ const ItemView = (item, key) => {
 };
 
 console.log(Glocation)
-if(Show == 1 && Glocation != null){
+if(Glocation != null){
     return (
       <Container>
         <Header style ={{backgroundColor: "#CA7004"}}>
@@ -612,7 +620,6 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   boxinput:{

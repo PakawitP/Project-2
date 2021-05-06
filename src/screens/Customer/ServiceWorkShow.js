@@ -38,18 +38,15 @@ export default function ServiceWorkShow (props) {
   var docRefService = firebase.firestore().collection("users").doc(KeyRef.Tkey).collection("ServiceWork");
 
   const [Show,setShow] = useState(0)
-  const [Point, setPoint] = useState(null);
   const [Motorcycle, setMotorcycle] = useState(false);
   const [Electrician, setElectrician] = useState(false);
   const [Electricity, setElectricity] = useState(false);
 
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalVisibleCD, setModalVisibleCD] = useState(false);
 
   const [dataOnoff, setDataOnoff] = useState([]);
   const [dataService, setDataService] = useState([]);
 
-  const [isSelect,setisSelect] = useState(null);
+  
 
 
 
@@ -102,7 +99,7 @@ const OnoffView = (item, key) => {
     <TouchableHighlight View key={key} style ={{margin:5}} >
 
       <Text style={styles.itemStyle}>
-        {item.on} - {item.off} 
+        {mi(item.on)} - {mi(item.off)}
         {item.Day.Sunday ? "  อา" : ""}
         {item.Day.Monday ? "  จ" : ""}
         {item.Day.Tuesday ? "  อ" : ""}
@@ -118,30 +115,46 @@ const OnoffView = (item, key) => {
   );
 };
 
+const mi = (g) =>{
+  let t = g.split(":")
+  let ho
+  let min
+  if(parseInt(t[0]) < 10){
+    ho = ("0"+t[0])
+  }
+  if(parseInt(t[1]) < 10){
+    min =  ("0"+t[1])
+  }
+  else{
+    return g
+  }
+  return (ho+" : "+min)
+}
+
 const ServicView = (item, key) => {
   return (
     // Flat List Item
     // <TouchableHighlight View key={key} style ={{margin:5}} onLongPress = {() => getItem(item,2)}>
     <TouchableHighlight  key={key} style ={{margin:5}} >
       <Card>
-        <CardItem>
+      <CardItem>
           <MaterialIcons name="work" size={24} color="#CA7004" />
           <Text style={styles.itemStyle2}>
-            งาน {item.NameWork}
+            งาน{"\t"}{item.NameWork}
           </Text>
         </CardItem>
 
         <CardItem>
           <MaterialIcons name="attach-money" size={24} color="#CA7004" />
-          <Text style={styles.itemStyle2}>
-            ราตา {item.Rate}
+          <Text style={{...styles.itemStyle2,flex:1}}>
+            ราคา{"\t"}{item.Rate}
           </Text>
         </CardItem>
 
         <CardItem>
           <FontAwesome5 name="hand-rock" size={24} color="#CA7004" />
           <Text style={styles.itemStyle2}>
-            เทคนิควิธีการ {item.description}
+            เทคนิควิธีการ{"\t"}{"\t"}{item.description}
           </Text>
         </CardItem>
       </Card>
@@ -149,6 +162,19 @@ const ServicView = (item, key) => {
   );
 };
 
+const T = () =>{
+  if(Motorcycle){
+    return ("ช่างซ่อมรถจักรยานยนต์")
+  }
+  else if(Electrician){
+    return ("ช่างซ่อมเครื่องใช้ไฟฟ้า")
+  }
+  else if(Electricity){
+    return ("ช่างซ่อมไฟฟ้า")
+  }else{
+    return ("ช่างทั่วไป")
+  }
+}
 
 if(dataOnoff.length > 0 || dataService.length > 0){
     return (
@@ -188,9 +214,8 @@ if(dataOnoff.length > 0 || dataService.length > 0){
               </View>
 
               <View>
-                <Text style={{fontSize:16}}>{Motorcycle ? " ช่างซ่อมรถจักรยานยนต์\n" : null} 
-                      {Electrician ? " ช่างซ่อมเครื่องใช้ไฟฟ้า\n" : null}
-                      {Electricity ? " ช่างซ่อมไฟฟ้า\n" : null}
+                <Text style={{fontSize:16}}>
+                  {T()}
                 </Text>
               </View>
             </View>
@@ -243,7 +268,7 @@ if(dataOnoff.length > 0 || dataService.length > 0){
           <View style={{margin:5}}>
             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',margin:10}}>
               <View>
-                <FontAwesome5 name="user-tie" size={95} color="#3F51B5" />
+                <FontAwesome5 name="user-tie" size={95} color="#CA7004" />
               </View>
               <View>
                 <Text style={{fontSize:16}}>

@@ -101,7 +101,7 @@ export default function JobAnnouShow (props) {
 
   const Time = (time) =>{
     if(time != null){
-      return(time.toDate().toLocaleTimeString() +" "+ time.toDate().toLocaleDateString())
+      return(time.toDate().toLocaleTimeString()+"\t"+"\t"+time.toDate().toLocaleDateString())
     }else{
       return ("อัพเดทเวลา")
     }
@@ -185,25 +185,26 @@ if(dataSource.length > 0){
         </Right>
       </Header>
 
+      <View>
+        <SearchBar
+          searchIcon={{ size: 24 }}
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={(text) => searchFilterFunction('')}
+          placeholder="ค้นหางาน"
+          lightTheme = {true}
+          // placeholderTextColor= "#CA7004"
+          value={search}
+        />
+      </View>
+
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-          <View>
-              <SearchBar
-                searchIcon={{ size: 24 }}
-                onChangeText={(text) => searchFilterFunction(text)}
-                onClear={(text) => searchFilterFunction('')}
-                placeholder="ค้นหางาน"
-                lightTheme = {true}
-                // placeholderTextColor= "#CA7004"
-                value={search}
-              />
-            </View>
+          
             {
             //Loop of JS which is like foreach loop
               dataSource.map(ItemView)
-            }
-              
+            } 
           </View>
 
           <View style={styles.centeredView}>
@@ -273,20 +274,22 @@ if(dataSource.length > 0){
           </Right>
     </Header>
 
+    <View>
+      <SearchBar
+        searchIcon={{ size: 24 }}
+        onChangeText={(text) => searchFilterFunction(text)}
+        onClear={(text) => searchFilterFunction('')}
+        placeholder="ค้นหางาน"
+        lightTheme = {true}
+        // placeholderTextColor= "#CA7004"
+        value={search}
+      />
+    </View>
+    
     <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-            <View>
-                <SearchBar
-                  searchIcon={{ size: 24 }}
-                  onChangeText={(text) => searchFilterFunction(text)}
-                  onClear={(text) => searchFilterFunction('')}
-                  placeholder="ค้นหางาน"
-                  lightTheme = {true}
-                  // placeholderTextColor= "#CA7004"
-                  value={search}
-                />
-              </View>
+            
               <View style ={{margin:5}}>
 
                 <Card>

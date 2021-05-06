@@ -81,15 +81,22 @@ export default function History (props) {
 
   };
 
-  const Check = () =>{
-    if( image != null && Explain != "" ){
-      uploadImage()
-    }else{
-      Alert.alert(
-        "การดำเนินการ",
-        "ข้อมูลไม่ครบถ้วน",)
-    }
 
+
+  const Check = () =>{
+    if(image == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบรูปภาพ",)
+    }
+    else if(Explain == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบการอธิบายรูปภาพ",)
+    }
+    else{
+      uploadImage()
+    }
   }
 
   const uploadImage = async () => {
@@ -167,7 +174,7 @@ export default function History (props) {
       <ScrollView>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 
-        { <Image source={{ uri: image }} style={{ width: 350, height: 300}} />}
+        { <Image source={{ uri: image }} style={{ width: 350, height: 300 ,borderWidth: 1,borderColor: '#3F51B5',margin:10}} />}
 
         <Modal
           animationType="slide"
@@ -270,12 +277,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

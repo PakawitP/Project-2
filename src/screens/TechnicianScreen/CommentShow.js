@@ -108,17 +108,7 @@ console.log(KeyRef.key)
     .catch(function(error) {
         console.log("Error getting documents: ", error);
     });
-    // .get().then(function(doc) {
-    //   if (doc.exists) {
-    //       setDataSource(doc.data())
-    //       //console.log(doc.data());
-    //   } else {
-    //       // doc.data() will be undefined in this case
-    //       console.log("No such document!");
-    //   }
-    // }).catch(function(error) {
-    //     console.log("Error getting document:", error);
-    // });
+
 
   }
 
@@ -136,7 +126,7 @@ console.log(KeyRef.key)
             </Left>
             <Right>
               <Text style={styles.itemStyle}>
-                {item.Totle} <FontAwesome name="star" size={24} color="#efce4a" />
+                {item.Totle}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
               </Text>
             </Right>
           </CardItem>
@@ -197,7 +187,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AQuality/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(AQuality/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -210,7 +200,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(APunctual/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(APunctual/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
                 
@@ -224,7 +214,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(ACourtesy/ACount).toFixed(1)}  <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(ACourtesy/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -237,7 +227,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AScharge/ACount).toFixed(1)}  <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(AScharge/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>
@@ -250,7 +240,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(AContact/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(AContact/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
                 
@@ -264,7 +254,7 @@ if(dataSource != null){
                 </Left>
                 <Right style={{marginRight:30}}>
                   <Text >
-                    {(ATotle/ACount).toFixed(1)} <FontAwesome name="star" size={24} color="#efce4a" />
+                    {(ATotle/ACount).toFixed(1)}{"\t"}<FontAwesome name="star" size={24} color="#efce4a" />
                   </Text>
                 </Right>
               </CardItem>

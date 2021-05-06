@@ -186,6 +186,7 @@ if(dataSource.length > 0){
           </Button>
         </Right>
       </Header>
+
       <View>
         <SearchBar
           searchIcon={{ size: 24 }}
@@ -279,21 +280,23 @@ if(dataSource.length > 0){
           </Button>
         </Right>
       </Header>
+      
+      <View>
+        <SearchBar
+          searchIcon={{ size: 24 }}
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={(text) => searchFilterFunction('')}
+          placeholder="ค้นหารายชื่องาน"
+          lightTheme = {true}
+          // placeholderTextColor= "#CA7004"
+          value={search}
+        />
+      </View>
 
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-          <View>
-              <SearchBar
-                searchIcon={{ size: 24 }}
-                onChangeText={(text) => searchFilterFunction(text)}
-                onClear={(text) => searchFilterFunction('')}
-                placeholder="ค้นหารายชื่องาน"
-                lightTheme = {true}
-                // placeholderTextColor= "#CA7004"
-                value={search}
-              />
-           </View>
+          
             
               <View style ={{margin:5}}>
 
@@ -402,12 +405,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

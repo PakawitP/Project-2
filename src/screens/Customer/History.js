@@ -139,15 +139,28 @@ export default function History (props) {
   }
 
   const checks = () =>{
-    if(  Name != null && Contact != null &&  image != null){
-      uploadImage()
-      
-    }else{
+    if(Name == ""){
       Alert.alert(
-        "การดำเนินการ",
-        "ข้อมูลไม่ครบถ้วน",)
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบช่องทางการติดต่อ",)
     }
+    else if(Contact == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบชื่อ",)
+    }
+    else if(image == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบรูปภาพ",)
+    }
+    else{
+      uploadImage()
+    }
+
   }
+
+ 
 
 
 
@@ -191,7 +204,7 @@ export default function History (props) {
     <ScrollView>
       <View style={{alignItems: 'center'}}>
 
-      { <Image source={{ uri: image }} style={{ width: 200, height: 250 ,margin: 15}} />}
+      { <Image source={{ uri: image }} style={{ width: 200, height: 250 ,margin: 15,borderWidth: 1,borderColor: '#CA7004'}} />}
         <Modal
           animationType="slide"
           transparent={true}
@@ -247,14 +260,14 @@ export default function History (props) {
           <Label style={{marginTop:10}}>ชื่อ-สกุล</Label>
           <Item regular>
           
-              <Input placeholder='ชื่อ - สกุล' 
+              <Input placeholder='ชื่อ - สกุล'style={{fontSize:14}}
               
               onChangeText={(e)=>setName(e)}
               value = {Name}/>
           </Item>
 
           <Label style={{marginTop:20}}>ช่องทางการติดต่อ</Label>
-          <Textarea rowSpan={4} bordered placeholder="ช่องทางการติดต่อ" 
+          <Textarea rowSpan={4} bordered placeholder="ช่องทางการติดต่อ" style={{fontSize:14}}
           value = {Contact}
           onChangeText={(f)=>setContact(f)}/>
           <Button  full rounded    style ={{marginTop: 10, margin:20,backgroundColor:'#CA7004'}}
@@ -311,12 +324,11 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
+   
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {

@@ -95,6 +95,22 @@ export default function WorkPictureEdit (props) {
     }
   };
 
+  const Check = () =>{
+    if(image == null){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบรูปภาพ",)
+    }
+    else if(Explain == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบการอธิบายรูปภาพ",)
+    }
+    else{
+      uploadImage()
+    }
+  }
+
 
   const uploadImage = async () => {
     setLoading(true)
@@ -224,7 +240,7 @@ export default function WorkPictureEdit (props) {
         onChangeText={(g)=>setPhotoExplain(g)}/>
 
         <Button  full rounded    style ={{marginTop: 10, margint:20,marginTop:50}}
-          onPress ={uploadImage}>
+          onPress ={Check}>
           <Text style={{color:'#ffffff'}}>       บันทึก       </Text>
         </Button>
       </Content>

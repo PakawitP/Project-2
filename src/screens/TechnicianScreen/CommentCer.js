@@ -2,7 +2,7 @@ import React,{ useState, useEffect,useCallback } from 'react';
 import { SafeAreaView,Image,StyleSheet, Text, View ,ScrollView,RefreshControl,TouchableOpacity } from 'react-native';
 import {Container,Left, Body,Right,Card,CardItem, Title, Header , Subtitle, Button,Icon} from 'native-base' 
 //import { AntDesign } from '@expo/vector-icons'; 
-//import { Fontisto } from '@expo/vector-icons';
+import { Foundation } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 //import Swiper from 'react-native-swiper'
@@ -234,11 +234,18 @@ if(dataSource == null ){
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style ={{margin:5}}>
             <Card>
-              <CardItem header>
-                <Text>
-                  การคะเเนนเเละประเมินงาน
-                </Text>
-              </CardItem>
+              <Body>
+                <CardItem>
+                  <View>
+                    <Right>
+                      <Foundation name="graph-bar" size={50} color="#3F51B5" />
+                    </Right>
+                    <Text style={{fontSize:18}}>
+                      สรุปคะเเนนประเมิน
+                    </Text>
+                  </View>
+                </CardItem>
+              </Body>
               
               <CardItem>
                 <Left>
@@ -310,7 +317,7 @@ if(dataSource == null ){
                   
 
                   <Text>
-                   คะเเนนรวม  {All.Totle}  <FontAwesome name="star" size={30} color="#efce4a" />
+                   คะเเนนรวม{"\t"}{"\t"}{All.Totle}{"\t"}<FontAwesome name="star" size={30} color="#efce4a" />
                   </Text>
                 
               </CardItem></Body>

@@ -4,7 +4,7 @@ import {Container,Left, Body,Right,Card,CardItem, Title, Header , Subtitle, Butt
 //import { AntDesign } from '@expo/vector-icons'; 
 import { Fontisto } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-//import Swiper from 'react-native-swiper'
+import { Foundation } from '@expo/vector-icons';
 import {Keyaut} from '../Keyaut'
 import * as firebase from 'firebase';
 import { firebaseConfig } from './firebaseConfig.js';
@@ -233,11 +233,18 @@ if(dataSource == null ){
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style ={{margin:5}}>
             <Card>
-              <CardItem header>
-                <Text>
-                  การคะเเนนเเละประเมินงาน
-                </Text>
-              </CardItem>
+            <Body>
+                <CardItem>
+                  <View>
+                    <Right>
+                      <Foundation name="graph-bar" size={50} color="#CA7004" />
+                    </Right>
+                    <Text style={{fontSize:18}}>
+                      สรุปคะเเนนประเมิน
+                    </Text>
+                  </View>
+                </CardItem>
+              </Body>
               
               <CardItem>
                 <Left>

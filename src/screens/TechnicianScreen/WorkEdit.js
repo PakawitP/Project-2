@@ -78,6 +78,33 @@ export default function WorkEdit (props) {
     });
   }
 
+  const Check = () =>{
+    if(NameCom == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบชื่อบริษัท/ร้าน",)
+    }
+    
+    else if(Position == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบตำแหน่งที่ทำ",)
+    }
+    else if(YearCom == "" ){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบช่วงปีที่ทำ",)
+    }
+    else if(AddressCom == ""){
+      Alert.alert(
+        "ข้อมูลไม่ครบถ้วน",
+        "ตรวจสอบที่อยู่บริษัท/ร้าน",)
+    }
+    else{
+      SaveData()
+    }
+  }
+
   return (
     // <Container style={styles.container}>
     <Container>
@@ -138,7 +165,7 @@ export default function WorkEdit (props) {
 
         <Button full rounded  style ={{marginTop: 10, margin:20}}
         // onPress ={()=>SaveData(Name,Contact,Address)}>
-        onPress ={SaveData}>
+        onPress ={Check}>
           <Text style= {{ color:'#FFFFFF'}}>       บันทึก       </Text>
         </Button>
       </Content>

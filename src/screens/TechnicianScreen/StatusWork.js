@@ -125,19 +125,21 @@ const ItemView = (item, key) => {
   if(item.Techicianpetition != item.Custommerpetition){
     return (
       <TouchableHighlight View key={key} style ={{margin:5}} 
-        onPress = {() => navigation.navigate('StatusWorkT',{KeyJ : item.Key, KeyAnnou : item.KeyAnnou,Name :item.WorkName})}
-      >
+        onPress = {() => navigation.navigate('StatusWorkT',{KeyJ : item.Key, KeyAnnou : item.KeyAnnou,Name :item.WorkName})}>
         <Card>
           <CardItem>
             <Left>
               <Text style={styles.itemStyle}>
-                ชื่องาน {item.WorkName}{"\n"}ผู้ว่าจ้าง {item.NameCustommer}
+                ชื่องาน {item.WorkName}{"\n"}ผู้ว่าจ้าง {item.NameCustommer}{"\n"}
               </Text>
             </Left>
             <Right>
+              <View style={{alignItems:'flex-end'}}>
               <AntDesign name="exclamationcircle" size={24} color="#3F51B5" />
-
-              
+                <Text>
+                  {item.stus}{"\n"}
+                </Text>
+              </View>
             </Right>
           </CardItem>
         </Card>
@@ -150,18 +152,27 @@ const ItemView = (item, key) => {
         onPress = {() => navigation.navigate('StatusWorkT',{KeyJ : item.Key, KeyAnnou : item.KeyAnnou,Name :item.WorkName})}
       >
         <Card>
-          <CardItem>
+          <CardItem >
             <Left>
               <Text style={styles.itemStyle}>
-                ชื่องาน {item.WorkName}{"\n"}ผู้ว่าจ้าง {item.NameCustommer}
+                ชื่องาน {item.WorkName}{"\n"}ผู้ว่าจ้าง {item.NameCustommer}{"\n"}
               </Text>
             </Left>
+            {/* <Right>
+              <View style ={{flexDirection:'row-reverse'}}>
+                <Entypo name="briefcase" size={24} color="#3F51B5" />
+                <Text>
+                  {"\t"}รอช่างยืนยัน{"\n"}
+                </Text>
+              </View>
+            </Right> */}
             <Right>
+              <View style={{alignItems:'flex-end'}}>
               <Entypo name="briefcase" size={24} color="#3F51B5" />
-              {/* <Text>
-                รอช่างยืนยัน{"\n"}
-              </Text> */}
-              
+                <Text>
+                  รอช่างยืนยัน{"\n"}
+                </Text>
+              </View>
             </Right>
           </CardItem>
         </Card>
@@ -177,11 +188,18 @@ const ItemView = (item, key) => {
           <CardItem>
             <Left>
               <Text style={styles.itemStyle}>
-                ชื่องาน {item.WorkName}{"\n"}ผู้ว่าจ้าง {item.NameCustommer}
+                ชื่องาน {item.WorkName}{"\n"}ผู้ว่าจ้าง {item.NameCustommer}{"\n"}
               </Text>
             </Left>
+
             <Right>
-              <AntDesign name="tool" size={24} color="#3F51B5" />
+              <View style={{alignItems:'flex-end'}}>
+                <AntDesign name="tool" size={24} color="#3F51B5"/>
+                
+                <Text>
+                  {item.stus}{"\n"}
+                </Text>
+              </View>
             </Right>
           </CardItem>
         </Card>
@@ -221,29 +239,29 @@ if(dataSource.length > 0){
           </Button>
         </Right>
       </Header>
-
+      <View style={{flexDirection:'row'}}>
+          <View style={{flex:9}}>
+            <SearchBar
+              searchIcon={{ size: 24 }}
+              onChangeText={(text) => searchFilterFunction(text)}
+              onClear={(text) => searchFilterFunction('')}
+              placeholder="ค้นหารายชื่องาน"
+              lightTheme = {true}
+              // placeholderTextColor= "#CA7004"
+              value={search}
+            /></View>
+            <View style={{flex:1}}>
+            <Button style={{height:66,borderWidth: 1,borderColor: '#e1e8ee'}} full onPress={()=>{
+              setModalVisible(true)
+            }}>
+            <FontAwesome name="filter" size={24} color="#FFFFFF" />
+          </Button>
+        </View>
+      </View>
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
           <View style={styles.container}>
-            <View style={{flexDirection:'row'}}>
-              <View style={{flex:9}}>
-                  <SearchBar
-                    searchIcon={{ size: 24 }}
-                    onChangeText={(text) => searchFilterFunction(text)}
-                    onClear={(text) => searchFilterFunction('')}
-                    placeholder="ค้นหารายชื่องาน"
-                    lightTheme = {true}
-                    // placeholderTextColor= "#CA7004"
-                    value={search}
-                  /></View>
-                  <View style={{flex:1}}>
-                  <Button style={{height:66}} full onPress={()=>{
-                    setModalVisible(true)
-                  }}>
-                  <FontAwesome name="filter" size={24} color="#FFFFFF" />
-                </Button>
-              </View>
-            </View>
+            
             {
             //Loop of JS which is like foreach loop
               dataSource.map(ItemView)
@@ -348,7 +366,7 @@ if(dataSource.length > 0){
                       value={search}
                     /></View>
                     <View style={{flex:1}}>
-                    <Button style={{height:66}} full onPress={()=>{
+                    <Button style={{height:66,borderWidth: 1,borderColor: '#e1e8ee'}} full onPress={()=>{
                       setModalVisible(true)
                     }}>
                     <FontAwesome name="filter" size={24} color="#FFFFFF" />
@@ -472,12 +490,10 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   textStyleT: {
     color: 'white',
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {
